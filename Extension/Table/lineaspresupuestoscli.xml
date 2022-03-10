@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : lineaspresupuestoscli.xml
+    Author     : Carlos Garcia Gomez
+    Description:
+        Structure for the lineaspresupuestoscli table.
+-->
+<table>
+    <column>
+        <name>porcomision</name>
+        <type>double precision</type>
+        <default>0</default>
+    </column>
+</table>

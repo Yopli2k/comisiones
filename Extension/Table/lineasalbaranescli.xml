@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : lineasalbaranescli.xml
+    Author     : Carlos Garcia Gomez
+    Description:
+        Structure for the lineasalbaranescli table.
+-->
+<table>
+    <column>
+        <name>porcomision</name>
+        <type>double precision</type>
+        <default>0</default>
+    </column>
+</table>

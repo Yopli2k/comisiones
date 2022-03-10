@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : facturascli.xml
+    Author     : Carlos Garcia Gomez
+    Description:
+        Structure for the facturascli table.
+-->
+<table>
+    <column>
+        <name>idliquidacion</name>
+        <type>integer</type>
+    </column>
+    <column>
+        <name>totalcomision</name>
+        <type>double precision</type>
+        <default>0</default>
+    </column>
+    <constraint>
+        <name>ca_facturascli_liquidaciones</name>
+        <type>FOREIGN KEY (idliquidacion) REFERENCES liquidacionescomisiones (idliquidacion) ON DELETE SET NULL ON UPDATE CASCADE</type>
+    </constraint>
+</table>

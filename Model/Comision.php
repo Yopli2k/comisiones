@@ -26,7 +26,7 @@ use FacturaScripts\Core\Model\Base;
 /**
  * List of a sellers commissions.
  *
- * @author Artex Trading s.a. <jcuello@artextrading.com>
+ * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class Comision extends Base\ModelClass
 {
@@ -135,7 +135,7 @@ class Comision extends Base\ModelClass
     }
 
     /**
-     * 
+     *
      * @return bool
      */
     public function test()

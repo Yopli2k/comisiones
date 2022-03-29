@@ -23,6 +23,7 @@ use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 use FacturaScripts\Dinamic\Model\Comision;
+use FacturaScripts\Dinamic\Model\ComisionPenalizacion;
 use FacturaScripts\Dinamic\Model\Producto;
 
 /**
@@ -35,18 +36,28 @@ class CommissionTools
 {
 
     /**
+     * Commission ratio.
      *
      * @var Comision[]
      */
     protected $commissions;
 
     /**
+     * Sales document.
      *
      * @var SalesDocument
      */
     protected $document;
 
     /**
+     * List of penalties for applying discounts.
+     *
+     * @var ComisionPenalizacion[]
+     */
+    protected $penalties = [];
+
+    /**
+     * Calculate the commission percentages for the sales document.
      *
      * @param SalesDocument       $doc
      * @param SalesDocumentLine[] $lines
@@ -59,6 +70,7 @@ class CommissionTools
 
         $this->document = $doc;
         $this->loadCommissions();
+        $this->loadPenalties();
 
         $totalcommission = 0.0;
         foreach ($lines as $line) {
@@ -71,9 +83,9 @@ class CommissionTools
     }
 
     /**
+     * Gets the commission percentage for the document line.
      *
      * @param SalesDocumentLine $line
-     *
      * @return float
      */
     protected function getCommission($line)
@@ -81,11 +93,36 @@ class CommissionTools
         $product = $line->getProducto();
         foreach ($this->commissions as $commission) {
             if ($this->isValidCommissionForLine($line, $product, $commission)) {
-                return $commission->porcentaje;
+                if ($commission->porcentaje == 0.00 || $line->dtopor == 0.00) {
+                    return $commission->porcentaje;
+                }
+
+                $result = $commission->porcentaje - $this->getPenalty($line->dtopor);
+                if ($result < 0.00) {
+                    $result = 0.00;
+                }
+                return $result;
             }
         }
 
         return 0.0;
+    }
+
+    /**
+     * Gets the penalty for the commission if the sale has been discounted.
+     *
+     * @param float $discount
+     * @return float
+     */
+    protected function getPenalty($discount)
+    {
+        foreach ($this->penalties as $penalty) {
+            if ($this->isValidPenaltyForDiscount($penalty, $discount)) {
+                return $penalty->penalizacion;
+            }
+        }
+
+        return 0.00;
     }
 
     /**
@@ -131,6 +168,25 @@ class CommissionTools
     }
 
     /**
+     * Check if the penalty record is applicable to the line document
+     *
+     * @param CommissionPenalty $penalty
+     * @param float             $discount
+     * @return bool
+     */
+    protected function isValidPenaltyForDiscount($penalty, $discount): bool
+    {
+        if (!empty($penalty->idempresa) && $penalty->idempresa != $this->document->idempresa) {
+            return false;
+        }
+
+        if ($discount > $penalty->dto_desde) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Charge applicable commissions.
      */
     protected function loadCommissions()
@@ -150,10 +206,35 @@ class CommissionTools
     }
 
     /**
+     * Charge applicable penalties.
+     */
+    protected function loadPenalties()
+    {
+        if (empty($this->commissions)) {
+            return;
+        }
+
+        $model = new ComisionPenalizacion();
+        $where = [
+            new DataBaseWhere('codagente', $this->document->codagente),
+            new DataBaseWhere('idempresa', $this->document->idempresa),
+            new DataBaseWhere('idempresa', null, 'IS', 'OR')
+        ];
+
+        $order = [
+            'COALESCE(idempresa, 9999999)' => 'ASC',
+            'dto_desde' => 'ASC'
+        ];
+
+        foreach ($model->all($where, $order, 0, 0) as $penalty) {
+            $this->penalties[] = $penalty;
+        }
+    }
+
+    /**
      * Update commission sale of a document line
      *
      * @param SalesDocumentLine $line
-     *
      * @return float
      */
     protected function recalculateLine(&$line)

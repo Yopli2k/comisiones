@@ -79,8 +79,8 @@ class ListAgente
         return function (string $viewName = 'ListComisionPenalizacion') {
             $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
             $this->addOrderBy($viewName, ['id'], 'code');
-            $this->addOrderBy($viewName, ['idempresa', 'codagente', 'dto_desde'], 'company', 1);
-            $this->addOrderBy($viewName, ['codagente', 'idempresa', 'dto_desde'], 'agent');
+            $this->addOrderBy($viewName, ['idempresa', 'codagente', 'dto_desde'], 'company');
+            $this->addOrderBy($viewName, ['codagente', 'idempresa', 'dto_desde'], 'agent', 1);
 
             // Filters
             $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', Empresas::codeModel());

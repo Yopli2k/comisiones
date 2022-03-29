@@ -1,0 +1,11 @@
+{
+    "agent-penalty-info": "If the discount range is for all agents or for the selected agent",
+    "company-penalty-info": "If the discount range is for all companies or for the selected company",
+    "from-penalty-info": "Start of the discount range to which the penalty applies",
+    "until-penalty-info": "End of the discount range to which the penalty applies. '100' indicates maximum range",
+    "penalty-general-info": "Ratio of percentages that subtract to the commission of the agent in the sales by the application of discounts. It is applied according to the from / to where the applied discount is",
+    "penalty-penalty-info": "Percentage subtracted from the commission percentage on the sale",
+    "penalties": "Penalties",
+    "penalty": "Penalty",
+    "penalize": "Penalize"
+}

@@ -25,13 +25,16 @@ use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
  * Description of EditAgente
  *
  * @author Daniel Fernández Giménez <hola@danielfg.es>
+ * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class EditAgente
 {
-    public function createViews() {
+    public function createViews()
+    {
         return function() {
             $this->createCommissionsView();
             $this->createSettlementView();
+            $this->createPenalizeView();
         };
     }
 
@@ -55,6 +58,25 @@ class EditAgente
      *
      * @param string $viewName
      */
+    protected function createPenalizeView()
+    {
+        return function (string $viewName = 'EditComisionPenalizacion') {
+            $this->addEditListView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
+            $this->views[$viewName]->setInline(true);
+
+            /// disable company column if there is only one company
+            $this->views[$this->getMainViewName()]->disableColumn('company');
+            if ($this->empresa->count() < 2) {
+                $this->views[$viewName]->disableColumn('company');
+            }
+            $this->views[$viewName]->disableColumn('agent');
+        };
+    }
+
+    /**
+     *
+     * @param string $viewName
+     */
     protected function createSettlementView()
     {
         return function (string $viewName = 'ListLiquidacionComision') {
@@ -70,10 +92,17 @@ class EditAgente
             switch ($viewName) {
                 case 'ListComision':
                 case 'ListLiquidacionComision':
-                $codagente = $this->getViewModelValue('EditAgente', 'codagente');
-                $where = [new DataBaseWhere('codagente', $codagente)];
-                $view->loadData('', $where);
-                break;
+                    $codagente = $this->getViewModelValue('EditAgente', 'codagente');
+                    $where = [new DataBaseWhere('codagente', $codagente)];
+                    $view->loadData('', $where);
+                    break;
+
+                case 'EditComisionPenalizacion':
+                    $codagente = $this->getViewModelValue('EditAgente', 'codagente');
+                    $where = [new DataBaseWhere('codagente', $codagente)];
+                    $order = ['COALESCE(idempresa, 9999999)' => 'ASC', 'dto_desde' => 'ASC'];
+                    $view->loadData('', $where, $order);
+                    break;
             }
         };
     }

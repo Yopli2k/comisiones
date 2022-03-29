@@ -31,13 +31,15 @@ use FacturaScripts\Dinamic\Model\LiquidacionComision;
  * Description of ListAgente
  *
  * @author Daniel Fernández Giménez <hola@danielfg.es>
+ * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class ListAgente
 {
     public function createViews() {
         return function() {
-            $this->createCommissionView();
             $this->createSettlementView();
+            $this->createCommissionView();
+            $this->createPenaltyView();
         };
     }
 
@@ -50,7 +52,7 @@ class ListAgente
     {
         return function (string $viewName = 'ListComision') {
             $this->addView($viewName, 'Comision', 'commissions', 'fas fa-percentage');
-            $this->addOrderBy($viewName, ['idcomision'], 'id');
+            $this->addOrderBy($viewName, ['idcomision'], 'code');
             $this->addOrderBy($viewName, ['prioridad'], 'priority', 2);
             $this->addOrderBy($viewName, ['idempresa', 'codagente', 'porcentaje'], 'company');
             $this->addOrderBy($viewName, ['codagente', 'codcliente', 'codfamilia', 'idproducto', 'porcentaje'], 'agent');
@@ -64,6 +66,25 @@ class ListAgente
             $this->addFilterAutocomplete($viewName, 'customer', 'customer', 'codcliente', 'Cliente', 'codcliente');
             $this->addFilterAutocomplete($viewName, 'family', 'family', 'codfamilia', 'Familia', 'codfamilia');
             $this->addFilterAutocomplete($viewName, 'product', 'product', 'referencia', 'Producto', 'referencia', 'descripcion');
+        };
+    }
+
+    /**
+     * Add Penalty Commission View
+     *
+     * @param string $viewName
+     */
+    protected function createPenaltyView()
+    {
+        return function (string $viewName = 'ListComisionPenalizacion') {
+            $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
+            $this->addOrderBy($viewName, ['id'], 'code');
+            $this->addOrderBy($viewName, ['idempresa', 'codagente', 'dto_desde'], 'company', 1);
+            $this->addOrderBy($viewName, ['codagente', 'idempresa', 'dto_desde'], 'agent');
+
+            // Filters
+            $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', Empresas::codeModel());
+            $this->addFilterAutocomplete($viewName, 'agent', 'agent', 'codagente', 'agentes', 'codagente', 'nombre');
         };
     }
 

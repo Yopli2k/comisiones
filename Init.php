@@ -19,10 +19,10 @@
 
 namespace FacturaScripts\Plugins\Comisiones;
 
+use FacturaScripts\Core\Base\AjaxForms\SalesHeaderHTML;
 use FacturaScripts\Core\Base\InitClass;
 use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
-use FacturaScripts\Plugins\BetaForms\Lib\BetaForms\SalesHeaderHTML;
 
 /**
  * Description of Init

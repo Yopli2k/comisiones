@@ -18,75 +18,60 @@
  */
 namespace FacturaScripts\PLugins\Comisiones\Model;
 
-use FacturaScripts\Dinamic\Model\Agente as DinAgente;
-use FacturaScripts\Dinamic\Model\Cliente as DinCliente;
-use FacturaScripts\Dinamic\Model\Producto as DinProducto;
 use FacturaScripts\Core\Model\Base;
+use FacturaScripts\Dinamic\Model\Agente as DinAgente;
 
 /**
- * List of a sellers commissions.
+ * A penalization to commission for apply discount.
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
-class Comision extends Base\ModelClass
+class ComisionPenalizacion extends Base\ModelClass
 {
 
     use Base\ModelTrait;
 
     /**
-     * code of agent.
+     * Primary key.
+     *
+     * @var int
+     */
+    public $id;
+
+    /**
+     * Link to the agent model.
      *
      * @var string
      */
     public $codagente;
 
     /**
-     * code of customer.
+     * Link to company model.
      *
-     * @var string
-     */
-    public $codcliente;
-
-    /**
-     * code of family.
-     *
-     * @var string
-     */
-    public $codfamilia;
-
-    /**
-     * Primary Key
-     *
-     * @var int
-     */
-    public $idcomision;
-
-    /**
-     * Link to company model
-     *
-     * @var int
+     * @var integer
      */
     public $idempresa;
 
     /**
-     * code of product.
-     *
-     * @var int
-     */
-    public $idproducto;
-
-    /**
-     * Commission percentage.
+     * from % discount.
      *
      * @var float
      */
-    public $porcentaje;
+    public $dto_desde;
 
     /**
+     * up to % discount.
      *
-     * @var int
+     * @var float
      */
-    public $prioridad;
+    public $dto_hasta;
+
+    /**
+     * penalty percentage
+     *
+     * @var float
+     */
+    public $penalizacion;
 
     /**
      * Reset the values of all model properties.
@@ -94,8 +79,9 @@ class Comision extends Base\ModelClass
     public function clear()
     {
         parent::clear();
-        $this->porcentaje = 0.00;
-        $this->prioridad = 0;
+        $this->dto_desde = 1.00;
+        $this->dto_hasta = 100.00;
+        $this->penalizacion = 100.00;
     }
 
     /**
@@ -108,10 +94,9 @@ class Comision extends Base\ModelClass
     public function install()
     {
         new DinAgente();
-        new DinCliente();
-        new DinProducto();
+        parent::install();
 
-        return parent::install();
+        return '';
     }
 
     /**
@@ -121,7 +106,7 @@ class Comision extends Base\ModelClass
      */
     public static function primaryColumn()
     {
-        return 'idcomision';
+        return 'id';
     }
 
     /**
@@ -131,20 +116,7 @@ class Comision extends Base\ModelClass
      */
     public static function tableName()
     {
-        return 'comisiones';
-    }
-
-    /**
-     *
-     * @return bool
-     */
-    public function test()
-    {
-        if (empty($this->idempresa)) {
-            $this->idempresa = $this->toolBox()->appSettings()->get('default', 'idempresa');
-        }
-
-        return parent::test();
+        return 'comisionespenalizaciones';
     }
 
     /**
@@ -159,4 +131,5 @@ class Comision extends Base\ModelClass
     {
         return parent::url($type, $list);
     }
+
 }

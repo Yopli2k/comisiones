@@ -19,10 +19,10 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
+use FacturaScripts\Core\Base\Contract\SalesModInterface;
 use FacturaScripts\Core\Base\Translator;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\User;
-use FacturaScripts\Plugins\BetaForms\Contract\SalesModInterface;
 
 /**
  * Description of SalesHeaderHTMLMod

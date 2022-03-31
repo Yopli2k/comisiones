@@ -25,9 +25,8 @@ use FacturaScripts\Core\Lib\ExtendedController\EditController;
  * Controler to edit commission.
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
- * @author Carlos García Gómez  <carlos@facturascripts.com>
  */
-class EditComision extends EditController
+class EditComisionPenalizacion extends EditController
 {
 
     /**
@@ -35,7 +34,7 @@ class EditComision extends EditController
      */
     public function getModelClassName()
     {
-        return 'Comision';
+        return 'ComisionPenalizacion';
     }
 
     /**
@@ -47,8 +46,8 @@ class EditComision extends EditController
     {
         $pagedata = parent::getPageData();
         $pagedata['menu'] = 'admin';
-        $pagedata['title'] = 'commission';
-        $pagedata['icon'] = 'fas fa-percentage';
+        $pagedata['title'] = 'penalize';
+        $pagedata['icon'] = 'fas fa-minus-circle';
         return $pagedata;
     }
 

@@ -26,7 +26,7 @@ use FacturaScripts\Dinamic\Model\FacturaCliente;
 /**
  * Description of SettledReceipt
  *
- * @author Artex Trading s.a.   <jcuello@artextrading.com>
+ * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  * @author Carlos García Gómez  <carlos@facturascripts.com>
  *
  * @property int $idfactura
@@ -92,7 +92,7 @@ class LiquidacionComisionFactura extends JoinModel
 
     /**
      * Get value from modal view cursor of the master model primary key.
-     * 
+     *
      * @return int
      */
     public function primaryColumnValue()
@@ -102,7 +102,7 @@ class LiquidacionComisionFactura extends JoinModel
 
     /**
      * List of fields or columns to select clausule.
-     * 
+     *
      * @return array
      */
     protected function getFields(): array
@@ -131,7 +131,7 @@ class LiquidacionComisionFactura extends JoinModel
 
     /**
      * List of tables related to from clausule.
-     * 
+     *
      * @return string
      */
     protected function getSQLFrom(): string
@@ -141,7 +141,7 @@ class LiquidacionComisionFactura extends JoinModel
 
     /**
      * List of tables required for the execution of the view.
-     * 
+     *
      * @return array
      */
     protected function getTables(): array

@@ -24,7 +24,7 @@ use FacturaScripts\Core\Model\Base;
 /**
  * List of Commissions Settlement.
  *
- * @author Artex Trading s.a.   <jcuello@artextrading.com>
+ * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  * @author Carlos García Gómez  <carlos@facturascripts.com>
  */
 class LiquidacionComision extends Base\ModelClass
@@ -114,7 +114,7 @@ class LiquidacionComision extends Base\ModelClass
 
     /**
      * Generates an supplier invoice with this settlement.
-     * 
+     *
      * @return bool
      */
     public function generateInvoice()
@@ -165,7 +165,7 @@ class LiquidacionComision extends Base\ModelClass
     }
 
     /**
-     * 
+     *
      * @return Agente
      */
     public function getAgent()
@@ -212,7 +212,7 @@ class LiquidacionComision extends Base\ModelClass
     }
 
     /**
-     * 
+     *
      * @return bool
      */
     public function test()

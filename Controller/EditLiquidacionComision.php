@@ -29,7 +29,7 @@ use FacturaScripts\Dinamic\Model\Join\LiquidacionComisionFactura;
 /**
  * Description of EditCommissionSettlement
  *
- * @author Artex Trading s.a.   <jcuello@artextrading.com>
+ * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  * @author Carlos García Gómez  <carlos@facturascripts.com>
  */
 class EditLiquidacionComision extends EditController

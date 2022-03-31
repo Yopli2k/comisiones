@@ -20,6 +20,10 @@ namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Dinamic\Lib\BusinessDocumentTools;
 use FacturaScripts\Core\Model\Base;
+use FacturaScripts\Dinamic\Model\Agente;
+use FacturaScripts\Dinamic\Model\Almacen;
+use FacturaScripts\Dinamic\Model\FacturaCliente;
+use FacturaScripts\Dinamic\Model\FacturaProveedor;
 
 /**
  * List of Commissions Settlement.

@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Model\Base;
 
-use FacturaScripts\Dinamic\Lib\CommissionTools;
+use FacturaScripts\Core\Base\Calculator;
 
 class SalesDocument
 {
@@ -52,8 +52,7 @@ class SalesDocument
         return function () {
             if (null !== $this->codagente && $this->total > 0) {
                 $lines = $this->getLines();
-                $commissions = new CommissionTools();
-                $commissions->recalculate($this, $lines);
+                return Calculator::calculate($this, $lines, false);
             }
 
             return true;

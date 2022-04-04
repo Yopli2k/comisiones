@@ -19,10 +19,10 @@
 namespace FacturaScripts\Plugins\Comisiones\Controller;
 
 use Exception;
+use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
-use FacturaScripts\Dinamic\Lib\CommissionTools;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 use FacturaScripts\Dinamic\Model\Join\LiquidacionComisionFactura;
 
@@ -78,14 +78,13 @@ class EditLiquidacionComision extends EditController
             return;
         }
 
-        $commission = new CommissionTools();
         $this->dataBase->beginTransaction();
 
         try {
             /// recalculate all business documents
             foreach ($docs as $invoice) {
                 $lines = $invoice->getLines();
-                $commission->recalculate($invoice, $lines);
+                Calculator::calculate($invoice, $lines, false);
                 $invoice->save();
             }
 

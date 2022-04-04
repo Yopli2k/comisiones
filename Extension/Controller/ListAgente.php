@@ -19,11 +19,11 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
+use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Agentes;
 use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\DataSrc\Series;
-use FacturaScripts\Dinamic\Lib\CommissionTools;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
 
@@ -184,11 +184,10 @@ class ListAgente
             $newSettlement->codserie = $codserie;
             $newSettlement->idempresa = $idempresa;
             if ($newSettlement->save()) {
-                $commissionTools = new CommissionTools();
                 foreach ($invoices as $invoice) {
                     // recalculate commissions
                     $lines = $invoice->getLines();
-                    $commissionTools->recalculate($invoice, $lines);
+                    Calculator::calculate($invoice, $lines, false);
 
                     $invoice->idliquidacion = $newSettlement->idliquidacion;
                     $invoice->save();

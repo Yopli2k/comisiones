@@ -50,6 +50,11 @@ class SalesDocument
     protected function onChangeAgent()
     {
         return function () {
+            if ($this->idliquidacion) {
+                $this->toolBox()->i18nLog()->warning('cant-change-agent-in-settlement');
+                return false;
+            }
+
             if (null !== $this->codagente && $this->total > 0) {
                 $lines = $this->getLines();
                 return Calculator::calculate($this, $lines, false);

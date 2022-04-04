@@ -35,6 +35,8 @@ class Init extends InitClass
     {
         $this->loadExtension(new Extension\Controller\ListAgente());
         $this->loadExtension(new Extension\Controller\EditAgente());
+        $this->loadExtension(new Extension\Model\Base\SalesDocument());
+        $this->loadExtension(new Extension\Model\Base\SalesDocumentLine());
         Calculator::addMod(new Mod\CalculatorMod());
         SalesHeaderHTML::addMod(new Mod\SalesHeaderHTMLMod());
     }

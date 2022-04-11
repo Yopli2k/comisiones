@@ -42,6 +42,11 @@ class SalesHeaderHTMLMod implements SalesModInterface
         // TODO: Implement applyBefore() method.
     }
 
+    public function assets(): void
+    {
+        // TODO: Implement assets method.
+    }
+
     public function newFields(): array
     {
         // TODO: Implement newFields() method.

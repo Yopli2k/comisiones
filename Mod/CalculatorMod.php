@@ -60,14 +60,12 @@ class CalculatorMod implements CalculatorModInterface
 
     public function apply(BusinessDocument &$doc, array &$lines): bool
     {
-        // TODO: Implement apply() method.
         return true;
     }
 
     public function calculate(BusinessDocument &$doc, array &$lines): bool
     {
-        // TODO: Implement calculate() method.
-        if (false === \property_exists($doc, 'totalcomision')) {
+        if (false === property_exists($doc, 'totalcomision')) {
             return true;
         }
 
@@ -82,25 +80,22 @@ class CalculatorMod implements CalculatorModInterface
             }
         }
 
-        $doc->totalcomision = \round($totalcommission, (int) FS_NF0);
+        $doc->totalcomision = round($totalcommission, (int)FS_NF0);
         return true;
     }
 
     public function calculateLine(BusinessDocument $doc, BusinessDocumentLine &$line): bool
     {
-        // TODO: Implement calculateLine() method.
         return true;
     }
 
     public function clear(BusinessDocument &$doc, array &$lines): bool
     {
-        // TODO: Implement clear() method.
         return true;
     }
 
     public function getSubtotals(array &$subtotals, BusinessDocument $doc, array $lines): bool
     {
-        // TODO: Implement getSubtotals() method.
         return true;
     }
 
@@ -171,8 +166,8 @@ class CalculatorMod implements CalculatorModInterface
      * Check if the commission record is applicable to the line document
      *
      * @param SalesDocumentLine $line
-     * @param Producto          $product
-     * @param Comision          $commission
+     * @param Producto $product
+     * @param Comision $commission
      *
      * @return bool
      */
@@ -193,7 +188,7 @@ class CalculatorMod implements CalculatorModInterface
      * Check if the penalty record is applicable to the line document
      *
      * @param CommissionPenalty $penalty
-     * @param float             $discount
+     * @param float $discount
      * @return bool
      */
     protected function isValidPenaltyForDiscount($penalty, $discount): bool

@@ -34,33 +34,23 @@ class SalesHeaderHTMLMod implements SalesModInterface
 
     public function assets(): void
     {
-        // TODO: Implement assets() method.
     }
 
     public function apply(SalesDocument &$model, array $formData, User $user)
     {
-        // TODO: Implement apply() method.
     }
 
     public function applyBefore(SalesDocument &$model, array $formData, User $user)
     {
-        // TODO: Implement applyBefore() method.
-    }
-
-    public function assets(): void
-    {
-        // TODO: Implement assets method.
     }
 
     public function newFields(): array
     {
-        // TODO: Implement newFields() method.
         return ['totalcomision'];
     }
 
     public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string
     {
-        // TODO: Implement renderField() method.
         if ($field === 'totalcomision') {
             return self::totalcomision($i18n, $model);
         }

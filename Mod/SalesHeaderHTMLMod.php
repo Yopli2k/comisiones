@@ -32,6 +32,11 @@ use FacturaScripts\Core\Model\User;
 class SalesHeaderHTMLMod implements SalesModInterface
 {
 
+    public function assets(): void
+    {
+        // TODO: Implement assets() method.
+    }
+
     public function apply(SalesDocument &$model, array $formData, User $user)
     {
         // TODO: Implement apply() method.

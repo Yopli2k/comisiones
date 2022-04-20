@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Model\Base;
 
-use FacturaScripts\Core\Base\Calculator;
+use Closure;
 
 class SalesDocument
 {
@@ -30,46 +30,29 @@ class SalesDocument
      */
     public $totalcomision;
 
-    public function clear() {
-        return function() {
+    public function clear(): Closure
+    {
+        return function () {
             $this->totalcomision = 0.0;
         };
     }
 
-    public function onChange() {
-        return function($field) {
-            if ('codagente' === $field) {
-                return $this->onChangeAgent();
-            }
-        };
-    }
-
-    /**
-     * @return bool
-     */
-    protected function onChangeAgent()
+    public function onChange(): Closure
     {
-        return function () {
-            if ($this->idliquidacion) {
+        return function ($field) {
+            if ('codagente' === $field && $this->idliquidacion) {
                 $this->toolBox()->i18nLog()->warning('cant-change-agent-in-settlement');
                 return false;
             }
-
-            if (null !== $this->codagente && $this->total > 0) {
-                $lines = $this->getLines();
-                return Calculator::calculate($this, $lines, false);
-            }
-
-            return true;
         };
     }
 
-    public function test() {
-        return function() {
+    public function test(): Closure
+    {
+        return function () {
             if (null === $this->codagente) {
                 $this->totalcomision = 0.0;
             }
-            return true;
         };
     }
 }

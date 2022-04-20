@@ -19,52 +19,46 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
+use Closure;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 
 /**
  * Description of EditAgente
  *
- * @author Daniel Fernández Giménez <hola@danielfg.es>
+ * @author Carlos Garcia Gomez           <carlos@facturascripts.com>
+ * @author Daniel Fernández Giménez      <hola@danielfg.es>
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class EditAgente
 {
-    public function createViews()
+    public function createViews(): Closure
     {
-        return function() {
+        return function () {
             $this->createCommissionsView();
             $this->createSettlementView();
             $this->createPenalizeView();
         };
     }
 
-    /**
-     *
-     * @param string $viewName
-     */
-    protected function createCommissionsView()
+    protected function createCommissionsView(): Closure
     {
         return function (string $viewName = 'ListComision') {
             $this->addListView($viewName, 'Comision', 'commissions', 'fas fa-percentage');
             $this->views[$viewName]->addOrderBy(['prioridad'], 'priority', 2);
             $this->views[$viewName]->addOrderBy(['porcentaje'], 'percentage');
 
-            /// disable columns
+            // disable columns
             $this->views[$viewName]->disableColumn('agent', true);
         };
     }
 
-    /**
-     *
-     * @param string $viewName
-     */
-    protected function createPenalizeView()
+    protected function createPenalizeView(): Closure
     {
         return function (string $viewName = 'EditComisionPenalizacion') {
             $this->addEditListView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
             $this->views[$viewName]->setInline(true);
 
-            /// disable company column if there is only one company
+            // disable company column if there is only one company
             $this->views[$this->getMainViewName()]->disableColumn('company');
             if ($this->empresa->count() < 2) {
                 $this->views[$viewName]->disableColumn('company');
@@ -73,11 +67,7 @@ class EditAgente
         };
     }
 
-    /**
-     *
-     * @param string $viewName
-     */
-    protected function createSettlementView()
+    protected function createSettlementView(): Closure
     {
         return function (string $viewName = 'ListLiquidacionComision') {
             $this->addListView($viewName, 'LiquidacionComision', 'settlements', 'fas fa-chalkboard-teacher');
@@ -86,7 +76,7 @@ class EditAgente
         };
     }
 
-    protected function loadData()
+    protected function loadData(): Closure
     {
         return function ($viewName, $view) {
             switch ($viewName) {

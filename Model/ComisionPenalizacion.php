@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Core\Model\Base;
@@ -73,9 +74,6 @@ class ComisionPenalizacion extends Base\ModelClass
      */
     public $penalizacion;
 
-    /**
-     * Reset the values of all model properties.
-     */
     public function clear()
     {
         parent::clear();
@@ -84,14 +82,7 @@ class ComisionPenalizacion extends Base\ModelClass
         $this->penalizacion = 100.00;
     }
 
-    /**
-     * This function is called when creating the model table. Returns the SQL
-     * that will be executed after the creation of the table. Useful to insert values
-     * default.
-     *
-     * @return string
-     */
-    public function install()
+    public function install(): string
     {
         new DinAgente();
         parent::install();
@@ -99,35 +90,17 @@ class ComisionPenalizacion extends Base\ModelClass
         return '';
     }
 
-    /**
-     * Returns the name of the column that is the model's primary key.
-     *
-     * @return string
-     */
-    public static function primaryColumn()
+    public static function primaryColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * Returns the name of the table that uses this model.
-     *
-     * @return string
-     */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'comisionespenalizaciones';
     }
 
-    /**
-     * Returns the url where to see / modify the data.
-     *
-     * @param string $type
-     * @param string $list
-     *
-     * @return string
-     */
-    public function url(string $type = 'auto', string $list = 'ListAgente?activetab=List')
+    public function url(string $type = 'auto', string $list = 'ListAgente?activetab=List'): string
     {
         return parent::url($type, $list);
     }

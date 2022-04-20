@@ -19,6 +19,8 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Model\Base;
 
+use Closure;
+
 class SalesDocumentLine
 {
     /**
@@ -28,8 +30,9 @@ class SalesDocumentLine
      */
     public $porcomision;
 
-    public function clear() {
-        return function() {
+    public function clear(): Closure
+    {
+        return function () {
             $this->porcomision = 0.0;
         };
     }

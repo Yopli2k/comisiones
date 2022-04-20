@@ -40,7 +40,7 @@ class SalesDocument
     public function onChange(): Closure
     {
         return function ($field) {
-            if ('codagente' === $field && $this->idliquidacion) {
+            if ('codagente' === $field && property_exists($this, 'idliquidacion') && $this->idliquidacion) {
                 $this->toolBox()->i18nLog()->warning('cant-change-agent-in-settlement');
                 return false;
             }

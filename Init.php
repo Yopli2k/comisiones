@@ -20,6 +20,7 @@
 namespace FacturaScripts\Plugins\Comisiones;
 
 use FacturaScripts\Core\Base\AjaxForms\SalesFooterHTML;
+use FacturaScripts\Core\Base\AjaxForms\SalesLineHTML;
 use FacturaScripts\Core\Base\InitClass;
 use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
@@ -39,6 +40,7 @@ class Init extends InitClass
         $this->loadExtension(new Extension\Model\Base\SalesDocumentLine());
         Calculator::addMod(new Mod\CalculatorMod());
         SalesFooterHTML::addMod(new Mod\SalesFooterHTMLMod());
+        SalesLineHTML::addMod(new Mod\SalesLineHTMLMod());
     }
 
     public function update()

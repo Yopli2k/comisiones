@@ -1,12 +1,12 @@
 {
-    "agent-penalty-info": "Si el rango de descuento es para todos los agentes o para el agente seleccionado",
-    "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
-    "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
+    "agent-penalty-info": "Se o intervalo de desconto é para todos os axentes ou para o axente seleccionado",
+    "company-penalty-info": "Se o rango de desconto é para todas as empresas ou só para a seleccionada",
+    "from-penalty-info": "Inicio do rango do desconto ao que se aplica a penalización",
     "penalize": "Penalizar",
-    "penalties": "Penalizaciones",
+    "penalties": "Penalizacións",
     "penalty": "Penalización",
-    "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
-    "penalty-help-title": "Penalización por hacer descuentos",
-    "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "penalty-help-info": "Se un axente fai un desconto ao realizar unha venda, é posible penalizar a comisión que percibirá pola venda. A través desta relación de porcentaxes, <b>a penalización réstase<\/b> da comisión en función dende\/ata onde se atope aplicado o desconto polo vendedor na venda.<br><br><b>Por exemplo:<\/b><br>Se temos un rexistro que establece un <i>Dende<\/i> 1 e un <i>Ata<\/i> 20, se o axente fai un desconto ao cliente do 15 % pois restarase da comisión o valor que introducimos en <i>Penalización<\/i>",
+    "penalty-help-title": "Penalización por facer descontos",
+    "penalty-penalty-info": "Porcentaxe que se resta da porcentaxe da comisión sobre a venda. (Introducir un valor positivo)",
+    "until-penalty-info": "Fin do rango do desconto ao que se aplica a penalización. '100' indica o rango máximo"
 }

@@ -24,25 +24,18 @@ use FacturaScripts\Core\Lib\ExtendedController\EditController;
 /**
  * Controler to edit commission.
  *
+ * @author Carlos Garcia Gomez           <carlos@facturascripts.com>
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class EditComisionPenalizacion extends EditController
 {
 
-    /**
-     * Returns the model name
-     */
-    public function getModelClassName()
+    public function getModelClassName(): string
     {
         return 'ComisionPenalizacion';
     }
 
-    /**
-     * Returns basic page attributes
-     *
-     * @return array
-     */
-    public function getPageData()
+    public function getPageData(): array
     {
         $pagedata = parent::getPageData();
         $pagedata['menu'] = 'admin';
@@ -55,7 +48,7 @@ class EditComisionPenalizacion extends EditController
     {
         parent::createViews();
 
-        /// disable company column if there is only one company
+        // disable company column if there is only one company
         if ($this->empresa->count() < 2) {
             $this->views[$this->getMainViewName()]->disableColumn('company');
         }

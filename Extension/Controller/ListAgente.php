@@ -19,6 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
+use Closure;
 use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Agentes;
@@ -30,25 +31,22 @@ use FacturaScripts\Dinamic\Model\LiquidacionComision;
 /**
  * Description of ListAgente
  *
- * @author Daniel Fernández Giménez <hola@danielfg.es>
+ * @author Carlos Garcia Gomez           <carlos@facturascripts.com>
+ * @author Daniel Fernández Giménez      <hola@danielfg.es>
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
 class ListAgente
 {
-    public function createViews() {
-        return function() {
+    public function createViews(): Closure
+    {
+        return function () {
             $this->createSettlementView();
             $this->createCommissionView();
             $this->createPenaltyView();
         };
     }
 
-    /**
-     * Add Commission View
-     *
-     * @param string $viewName
-     */
-    protected function createCommissionView()
+    protected function createCommissionView(): Closure
     {
         return function (string $viewName = 'ListComision') {
             $this->addView($viewName, 'Comision', 'commissions', 'fas fa-percentage');
@@ -69,12 +67,7 @@ class ListAgente
         };
     }
 
-    /**
-     * Add Penalty Commission View
-     *
-     * @param string $viewName
-     */
-    protected function createPenaltyView()
+    protected function createPenaltyView(): Closure
     {
         return function (string $viewName = 'ListComisionPenalizacion') {
             $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
@@ -88,12 +81,7 @@ class ListAgente
         };
     }
 
-    /**
-     * Add Settled Commission View
-     *
-     * @param string $viewName
-     */
-    protected function createSettlementView()
+    protected function createSettlementView(): Closure
     {
         return function (string $viewName = 'ListLiquidacionComision') {
             $this->addView($viewName, 'LiquidacionComision', 'settlements', 'fas fa-chalkboard-teacher');
@@ -117,23 +105,16 @@ class ListAgente
         };
     }
 
-    /**
-     * @param string $action
-     *
-     * @return bool
-     */
-    protected function execPreviousAction()
+    protected function execPreviousAction(): Closure
     {
-        return function($action) {
+        return function ($action) {
             if ($action === 'gen-settlements') {
                 $this->generateSettlementsAction();
             }
-
-            return true;
         };
     }
 
-    protected function generateSettlementsAction()
+    protected function generateSettlementsAction(): Closure
     {
         return function () {
             $codserie = $this->request->request->get('codserie', '');
@@ -170,13 +151,7 @@ class ListAgente
         };
     }
 
-    /**
-     * @param string $codagente
-     * @param int $idempresa
-     * @param string $codserie
-     * @param FacturaCliente[] $invoices
-     */
-    protected function newSettlement()
+    protected function newSettlement(): Closure
     {
         return function ($codagente, $idempresa, $codserie, $invoices) {
             $newSettlement = new LiquidacionComision();

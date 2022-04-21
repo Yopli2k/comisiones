@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Dinamic\Lib\BusinessDocumentTools;
@@ -44,7 +45,6 @@ class LiquidacionComision extends Base\ModelClass
     public $codagente;
 
     /**
-     *
      * @var string
      */
     public $codserie;
@@ -57,7 +57,6 @@ class LiquidacionComision extends Base\ModelClass
     public $fecha;
 
     /**
-     *
      * @var int
      */
     public $idempresa;
@@ -70,13 +69,11 @@ class LiquidacionComision extends Base\ModelClass
     public $idfactura;
 
     /**
-     *
      * @var int
      */
     public $idliquidacion;
 
     /**
-     *
      * @var string
      */
     public $observaciones;
@@ -88,13 +85,10 @@ class LiquidacionComision extends Base\ModelClass
      */
     public $total;
 
-    /**
-     * Reset the values of all model properties.
-     */
     public function clear()
     {
         parent::clear();
-        $this->fecha = \date(self::DATE_STYLE);
+        $this->fecha = date(self::DATE_STYLE);
         $this->total = 0.0;
     }
 
@@ -102,8 +96,9 @@ class LiquidacionComision extends Base\ModelClass
      * Calculate the total commission amount of a settlement
      *
      * @param int $code
+     * @return bool
      */
-    public function calculateTotalCommission($code)
+    public function calculateTotalCommission(int $code): bool
     {
         $sql = 'UPDATE ' . self::tableName()
             . ' SET total = COALESCE('
@@ -121,7 +116,7 @@ class LiquidacionComision extends Base\ModelClass
      *
      * @return bool
      */
-    public function generateInvoice()
+    public function generateInvoice(): bool
     {
         if (null !== $this->idfactura) {
             return true;
@@ -168,58 +163,33 @@ class LiquidacionComision extends Base\ModelClass
         return false;
     }
 
-    /**
-     *
-     * @return Agente
-     */
-    public function getAgent()
+    public function getAgent(): Agente
     {
         $agent = new Agente();
         $agent->loadFromCode($this->codagente);
         return $agent;
     }
 
-    /**
-     * This function is called when creating the model table. Returns the SQL
-     * that will be executed after the creation of the table. Useful to insert values
-     * default.
-     *
-     * @return string
-     */
-    public function install()
+    public function install(): string
     {
-        /// needed dependencies
+        // needed dependencies
         new Agente();
         new FacturaProveedor();
 
         return parent::install();
     }
 
-    /**
-     * Returns the name of the column that is the model's primary key.
-     *
-     * @return string
-     */
-    public static function primaryColumn()
+    public static function primaryColumn(): string
     {
         return 'idliquidacion';
     }
 
-    /**
-     * Returns the name of the table that uses this model.
-     *
-     * @return string
-     */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'liquidacionescomisiones';
     }
 
-    /**
-     *
-     * @return bool
-     */
-    public function test()
+    public function test(): bool
     {
         if (empty($this->idempresa)) {
             $this->idempresa = $this->toolBox()->appSettings()->get('default', 'idempresa');
@@ -229,15 +199,7 @@ class LiquidacionComision extends Base\ModelClass
         return parent::test();
     }
 
-    /**
-     * Returns the url where to see / modify the data.
-     *
-     * @param string $type
-     * @param string $list
-     *
-     * @return string
-     */
-    public function url(string $type = 'auto', string $list = 'ListAgente?activetab=List')
+    public function url(string $type = 'auto', string $list = 'ListAgente?activetab=List'): string
     {
         return parent::url($type, $list);
     }

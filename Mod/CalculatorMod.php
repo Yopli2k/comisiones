@@ -56,8 +56,8 @@ class CalculatorMod implements CalculatorModInterface
     {
         if ($doc instanceof SalesDocument) {
             // cargamos comisiones y penalizaciones aplicables
-            $this->loadCommissions($doc);
-            $this->loadPenalties($doc);
+            $this->loadCommissions($doc->idempresa, $doc->codagente, $doc->codcliente);
+            $this->loadPenalties($doc->idempresa, $doc->codagente);
         }
         return true;
     }
@@ -156,13 +156,13 @@ class CalculatorMod implements CalculatorModInterface
         return 0.00;
     }
 
-    protected function isValidCommissionForDoc(Comision $commission, SalesDocument $doc): bool
+    protected function isValidCommissionForDoc(Comision $commission, string $codagente, string $codcliente): bool
     {
-        if (!empty($commission->codagente) && $commission->codagente != $doc->codagente) {
+        if (!empty($commission->codagente) && $commission->codagente != $codagente) {
             return false;
         }
 
-        if (!empty($commission->codcliente) && $commission->codcliente != $doc->codcliente) {
+        if (!empty($commission->codcliente) && $commission->codcliente != $codcliente) {
             return false;
         }
 
@@ -194,23 +194,23 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
-    protected function loadCommissions(SalesDocument $doc)
+    protected function loadCommissions(int $idempresa, string $codagente, string $codcliente)
     {
         $this->commissions = [];
-        if (empty($doc->codagente)) {
+        if (empty($codagente)) {
             return;
         }
 
         $commission = new Comision();
-        $where = [new DataBaseWhere('idempresa', $doc->idempresa)];
+        $where = [new DataBaseWhere('idempresa', $idempresa)];
         foreach ($commission->all($where, ['prioridad' => 'DESC'], 0, 0) as $comm) {
-            if ($this->isValidCommissionForDoc($comm, $doc)) {
+            if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
             }
         }
     }
 
-    protected function loadPenalties(SalesDocument $doc)
+    protected function loadPenalties(int $idempresa, string $codagente)
     {
         if (empty($this->commissions)) {
             return;
@@ -218,8 +218,8 @@ class CalculatorMod implements CalculatorModInterface
 
         $model = new ComisionPenalizacion();
         $where = [
-            new DataBaseWhere('codagente', $doc->codagente),
-            new DataBaseWhere('idempresa', $doc->idempresa),
+            new DataBaseWhere('codagente', $codagente),
+            new DataBaseWhere('idempresa', $idempresa),
             new DataBaseWhere('idempresa', null, 'IS', 'OR')
         ];
         $order = [

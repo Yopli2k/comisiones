@@ -185,13 +185,12 @@ class CalculatorMod implements CalculatorModInterface
     protected function isValidPenaltyForDiscount(ComisionPenalizacion $penalty, float $discount, SalesDocument $doc): bool
     {
         if (!empty($penalty->idempresa) && $penalty->idempresa != $doc->idempresa) {
+            // la penalización se aplica a otra empresa
             return false;
         }
 
-        if ($discount > $penalty->dto_desde) {
-            return false;
-        }
-        return true;
+        // le descuento entra dentro del rando de penalización
+        return $discount >= $penalty->dto_desde && $discount <= $penalty->dto_hasta;
     }
 
     protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente)

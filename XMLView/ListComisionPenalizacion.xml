@@ -21,26 +21,26 @@
 <view>
     <columns>
         <column name="code" display="none" order="100">
-            <widget type="text" fieldname="id"  />
+            <widget type="text" fieldname="id"/>
         </column>
         <column name="company" display="none" order="110">
             <widget type="select" fieldname="idempresa" onclick="EditEmpresa">
-                <values source="empresas" fieldcode="idempresa" fieldtitle="nombrecorto" />
+                <values source="empresas" fieldcode="idempresa" fieldtitle="nombrecorto"/>
             </widget>
         </column>
         <column name="agent" order="120">
             <widget type="select" fieldname="codagente" onclick="EditAgente">
-                <values source="agentes" fieldcode="codagente" fieldtitle="nombre" />
+                <values source="agentes" fieldcode="codagente" fieldtitle="nombre"/>
             </widget>
         </column>
-        <column name="from" numcolumns="2" order="130">
-            <widget type="number" decimal="2" fieldname="dto_desde" />
+        <column name="from-dto" display="right" order="130">
+            <widget type="percentage" decimal="2" fieldname="dto_desde"/>
         </column>
-        <column name="until" numcolumns="2" order="140">
-            <widget type="number" decimal="2" fieldname="dto_hasta" />
+        <column name="until-dto" display="right" order="140">
+            <widget type="percentage" decimal="2" fieldname="dto_hasta"/>
         </column>
-        <column name="penalty" numcolumns="2" order="150">
-            <widget type="number" decimal="2" fieldname="penalizacion" />
+        <column name="penalty" display="right" order="150">
+            <widget type="number" decimal="2" fieldname="penalizacion"/>
         </column>
     </columns>
 </view>

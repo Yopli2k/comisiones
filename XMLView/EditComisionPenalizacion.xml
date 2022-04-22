@@ -21,26 +21,26 @@
 <view>
     <columns>
         <column name="code" display="none" order="100">
-            <widget type="text" fieldname="id" readonly="true" />
+            <widget type="text" fieldname="id" readonly="true"/>
         </column>
         <column name="company" order="100">
             <widget type="select" fieldname="idempresa" onclick="EditEmpresa">
-                <values source="empresas" fieldcode="idempresa" fieldtitle="nombrecorto" />
+                <values source="empresas" fieldcode="idempresa" fieldtitle="nombrecorto"/>
             </widget>
         </column>
         <column name="agent" titleurl="ListAgente" order="110">
             <widget type="select" fieldname="codagente" onclick="EditAgente" required="true">
-                <values source="agentes" fieldcode="codagente" fieldtitle="nombre" />
+                <values source="agentes" fieldcode="codagente" fieldtitle="nombre"/>
             </widget>
         </column>
-        <column name="from" numcolumns="2" order="120">
-            <widget type="number" decimal="2" min="0.01" max="100.00" fieldname="dto_desde" required="true" />
+        <column name="from-dto" numcolumns="2" order="120">
+            <widget type="percentage" decimal="2" min="0.01" max="100.00" fieldname="dto_desde" required="true"/>
         </column>
-        <column name="until" numcolumns="2" order="130">
-            <widget type="number" decimal="2" min="0.01" max="100.00" fieldname="dto_hasta" required="true" />
+        <column name="until-dto" numcolumns="2" order="130">
+            <widget type="percentage" decimal="2" min="0.01" max="100.00" fieldname="dto_hasta" required="true"/>
         </column>
         <column name="penalty" numcolumns="2" order="140">
-            <widget type="number" decimal="2" min="0.01" max="100.00" fieldname="penalizacion" required="true" />
+            <widget type="number" decimal="2" min="0.01" max="100.00" fieldname="penalizacion" required="true"/>
         </column>
     </columns>
     <rows>

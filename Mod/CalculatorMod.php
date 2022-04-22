@@ -19,10 +19,10 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
+use FacturaScripts\Core\Base\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
-use FacturaScripts\Core\Base\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 use FacturaScripts\Dinamic\Model\Comision;
@@ -194,7 +194,7 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
-    protected function loadCommissions(int $idempresa, string $codagente, string $codcliente)
+    protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente)
     {
         $this->commissions = [];
         if (empty($codagente)) {
@@ -210,7 +210,7 @@ class CalculatorMod implements CalculatorModInterface
         }
     }
 
-    protected function loadPenalties(int $idempresa, string $codagente)
+    protected function loadPenalties(int $idempresa, ?string $codagente)
     {
         if (empty($this->commissions)) {
             return;

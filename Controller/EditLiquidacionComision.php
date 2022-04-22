@@ -25,6 +25,7 @@ use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
+use FacturaScripts\Dinamic\Model\FacturaProveedor;
 use FacturaScripts\Dinamic\Model\Join\LiquidacionComisionFactura;
 
 /**
@@ -179,10 +180,17 @@ class EditLiquidacionComision extends EditController
     /**
      * Create the invoice for the payment to the agent
      */
-    protected function generateInvoice()
+    protected function generateInvoice(): bool
     {
         if ($this->views[$this->getMainViewName()]->model->generateInvoice()) {
             $this->toolBox()->i18nLog()->notice('record-updated-correctly');
+
+            // redireccionamos a la factura
+            $invoice = new FacturaProveedor();
+            if ($invoice->loadFromCode($this->views[$this->getMainViewName()]->model->idfactura)) {
+                $this->redirect($invoice->url());
+            }
+
             return true;
         }
 

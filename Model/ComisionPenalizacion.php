@@ -20,7 +20,7 @@
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Core\Model\Base;
-use FacturaScripts\Dinamic\Model\Agente as DinAgente;
+use FacturaScripts\Dinamic\Model\Agente;
 
 /**
  * A penalization to commission for apply discount.
@@ -84,7 +84,7 @@ class ComisionPenalizacion extends Base\ModelClass
 
     public function install(): string
     {
-        new DinAgente();
+        new Agente();
         parent::install();
 
         return '';

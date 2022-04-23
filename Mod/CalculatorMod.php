@@ -74,11 +74,11 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         // calculamos el total de comisiones
-        $totalcommission = 0.0;
+        $totalCommission = 0.0;
         foreach ($lines as $line) {
-            $totalcommission += $line->porcomision * $line->pvptotal / 100.0;
+            $totalCommission += $line->porcomision * $line->pvptotal / 100.0;
         }
-        $doc->totalcomision = round($totalcommission, (int)FS_NF0);
+        $doc->totalcomision = round($totalCommission, FS_NF0);
         return true;
     }
 
@@ -94,7 +94,7 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         // calculamos el porcentaje de comisión
-        $line->porcomision = $line->suplido ? 0.0 : $this->getCommission($line, $doc);
+        $line->porcomision = $line->suplido ? 0.0 : $this->getCommission($line);
         return true;
     }
 
@@ -121,7 +121,7 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
-    protected function getCommission(SalesDocumentLine $line, SalesDocument $doc): float
+    protected function getCommission(SalesDocumentLine $line): float
     {
         $product = $line->getProducto();
         foreach ($this->commissions as $commission) {
@@ -135,7 +135,7 @@ class CalculatorMod implements CalculatorModInterface
             }
 
             // si hay descuento, buscamos penalizaciones
-            $result = $commission->porcentaje - $this->getPenalty($line->dtopor, $doc);
+            $result = $commission->porcentaje - $this->getPenalty($line->dtopor);
             if ($result < 0.00) {
                 $result = 0.00;
             }
@@ -145,10 +145,10 @@ class CalculatorMod implements CalculatorModInterface
         return 0.0;
     }
 
-    protected function getPenalty(float $discount, SalesDocument $doc): float
+    protected function getPenalty(float $discount): float
     {
         foreach ($this->penalties as $penalty) {
-            if ($this->isValidPenaltyForDiscount($penalty, $discount, $doc)) {
+            if ($discount >= $penalty->dto_desde && $discount <= $penalty->dto_hasta) {
                 return $penalty->penalizacion;
             }
         }
@@ -158,10 +158,12 @@ class CalculatorMod implements CalculatorModInterface
 
     protected function isValidCommissionForDoc(Comision $commission, string $codagente, string $codcliente): bool
     {
+        // comprobamos el agente
         if (!empty($commission->codagente) && $commission->codagente != $codagente) {
             return false;
         }
 
+        // comprobamos el cliente
         if (!empty($commission->codcliente) && $commission->codcliente != $codcliente) {
             return false;
         }
@@ -171,26 +173,17 @@ class CalculatorMod implements CalculatorModInterface
 
     protected function isValidCommissionForLine(SalesDocumentLine &$line, Producto $product, Comision $commission): bool
     {
+        // comprobamos la familia del producto
         if (!empty($commission->codfamilia) && $commission->codfamilia != $product->codfamilia) {
             return false;
         }
 
+        // comprobamos el producto
         if (!empty($commission->idproducto) && $commission->idproducto != $line->idproducto) {
             return false;
         }
 
         return true;
-    }
-
-    protected function isValidPenaltyForDiscount(ComisionPenalizacion $penalty, float $discount, SalesDocument $doc): bool
-    {
-        if (!empty($penalty->idempresa) && $penalty->idempresa != $doc->idempresa) {
-            // la penalización se aplica a otra empresa
-            return false;
-        }
-
-        // le descuento entra dentro del rando de penalización
-        return $discount >= $penalty->dto_desde && $discount <= $penalty->dto_hasta;
     }
 
     protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente)

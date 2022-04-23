@@ -188,7 +188,7 @@ class EditLiquidacionComision extends EditController
             // redireccionamos a la factura
             $invoice = new FacturaProveedor();
             if ($invoice->loadFromCode($this->views[$this->getMainViewName()]->model->idfactura)) {
-                $this->redirect($invoice->url());
+                $this->redirect($invoice->url() . '&action=save-ok');
             }
 
             return true;
@@ -205,7 +205,7 @@ class EditLiquidacionComision extends EditController
      *
      * @return FacturaCliente[]
      */
-    protected function getInvoicesFromDataForm($data)
+    protected function getInvoicesFromDataForm(array $data): array
     {
         if (!isset($data['code'])) {
             return [];
@@ -228,7 +228,7 @@ class EditLiquidacionComision extends EditController
      *
      * @return DataBaseWhere[]
      */
-    protected function getInvoicesWhere($data)
+    protected function getInvoicesWhere(array $data): array
     {
         // Basic data filter
         $where = [

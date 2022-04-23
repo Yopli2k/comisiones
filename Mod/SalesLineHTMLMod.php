@@ -41,7 +41,14 @@ class SalesLineHTMLMod implements SalesLineModInterface
 
     public function map(array $lines, SalesDocument $model): array
     {
-        return [];
+        $map = [];
+        $num = 0;
+        foreach ($lines as $line) {
+            $num++;
+            $idlinea = $line->idlinea ?? 'n' . $num;
+            $map['porcomision_' . $idlinea] = $line->porcomision;
+        }
+        return $map;
     }
 
     public function newModalFields(): array
@@ -80,7 +87,7 @@ class SalesLineHTMLMod implements SalesLineModInterface
 
         return '<div class="col-6">'
             . '<div class="mb-2">' . $i18n->trans('percentage-commission')
-            . '<input type="number" value="' . $line->porcomision . '" class="form-control" disabled />'
+            . '<input type="number" name="porcomision_' . $idlinea . '" value="' . $line->porcomision . '" class="form-control" disabled />'
             . '</div>'
             . '</div>';
     }

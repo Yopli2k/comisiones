@@ -211,6 +211,7 @@ class CalculatorMod implements CalculatorModInterface
 
     protected function loadPenalties(int $idempresa, ?string $codagente)
     {
+        $this->penalties = [];
         if (empty($this->commissions)) {
             return;
         }

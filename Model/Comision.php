@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Dinamic\Model\Agente as DinAgente;
@@ -88,9 +89,6 @@ class Comision extends Base\ModelClass
      */
     public $prioridad;
 
-    /**
-     * Reset the values of all model properties.
-     */
     public function clear()
     {
         parent::clear();
@@ -98,14 +96,7 @@ class Comision extends Base\ModelClass
         $this->prioridad = 0;
     }
 
-    /**
-     * This function is called when creating the model table. Returns the SQL
-     * that will be executed after the creation of the table. Useful to insert values
-     * default.
-     *
-     * @return string
-     */
-    public function install()
+    public function install(): string
     {
         new DinAgente();
         new DinCliente();
@@ -114,31 +105,17 @@ class Comision extends Base\ModelClass
         return parent::install();
     }
 
-    /**
-     * Returns the name of the column that is the model's primary key.
-     *
-     * @return string
-     */
-    public static function primaryColumn()
+    public static function primaryColumn(): string
     {
         return 'idcomision';
     }
 
-    /**
-     * Returns the name of the table that uses this model.
-     *
-     * @return string
-     */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'comisiones';
     }
 
-    /**
-     *
-     * @return bool
-     */
-    public function test()
+    public function test(): bool
     {
         if (empty($this->idempresa)) {
             $this->idempresa = $this->toolBox()->appSettings()->get('default', 'idempresa');
@@ -147,15 +124,7 @@ class Comision extends Base\ModelClass
         return parent::test();
     }
 
-    /**
-     * Returns the url where to see / modify the data.
-     *
-     * @param string $type
-     * @param string $list
-     *
-     * @return string
-     */
-    public function url(string $type = 'auto', string $list = 'ListAgente?activetab=List')
+    public function url(string $type = 'auto', string $list = 'ListAgente?activetab=List'): string
     {
         return parent::url($type, $list);
     }

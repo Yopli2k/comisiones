@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace FacturaScripts\Plugins\Comisiones\Model\Join;
 
 use Exception;
@@ -27,19 +28,14 @@ use FacturaScripts\Dinamic\Model\FacturaCliente;
  * Description of SettledReceipt
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
- * @author Carlos García Gómez  <carlos@facturascripts.com>
+ * @author Carlos García Gómez           <carlos@facturascripts.com>
  *
  * @property int $idfactura
  */
 class LiquidacionComisionFactura extends JoinModel
 {
 
-    /**
-     * Constructor and class initializer.
-     *
-     * @param array $data
-     */
-    public function __construct($data = [])
+    public function __construct(array $data = [])
     {
         parent::__construct($data);
         $this->setMasterModel(new FacturaCliente());
@@ -49,7 +45,7 @@ class LiquidacionComisionFactura extends JoinModel
      * Add to the indicated settlement the list of customer invoices
      * according to the where filter.
      *
-     * @param int             $settled
+     * @param int $settled
      * @param DataBaseWhere[] $where
      */
     public function addInvoiceToSettle($settled, $where)
@@ -78,12 +74,7 @@ class LiquidacionComisionFactura extends JoinModel
         }
     }
 
-    /**
-     * Remove the record from settle commission.
-     *
-     * @return bool
-     */
-    public function delete()
+    public function delete(): bool
     {
         $sql = 'UPDATE ' . FacturaCliente::tableName() . ' SET idliquidacion = NULL'
             . ' WHERE ' . FacturaCliente::primaryColumn() . ' = ' . self::$dataBase->var2str($this->idfactura);
@@ -100,11 +91,6 @@ class LiquidacionComisionFactura extends JoinModel
         return $this->idfactura;
     }
 
-    /**
-     * List of fields or columns to select clausule.
-     *
-     * @return array
-     */
     protected function getFields(): array
     {
         return [
@@ -129,21 +115,11 @@ class LiquidacionComisionFactura extends JoinModel
         ];
     }
 
-    /**
-     * List of tables related to from clausule.
-     *
-     * @return string
-     */
     protected function getSQLFrom(): string
     {
         return 'facturascli INNER JOIN formaspago ON formaspago.codpago = facturascli.codpago';
     }
 
-    /**
-     * List of tables required for the execution of the view.
-     *
-     * @return array
-     */
     protected function getTables(): array
     {
         return ['facturascli', 'formaspago'];

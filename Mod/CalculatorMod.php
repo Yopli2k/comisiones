@@ -19,10 +19,10 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
+use FacturaScripts\Core\Base\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
-use FacturaScripts\Core\Base\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 use FacturaScripts\Dinamic\Model\Comision;
@@ -32,6 +32,7 @@ use FacturaScripts\Dinamic\Model\Producto;
 /**
  * Description of CalculatorMod
  *
+ * @author Carlos Garcia Gomez      <carlos@facturascripts.com>
  * @author Daniel Fernández Giménez <hola@danielfg.es>
  */
 class CalculatorMod implements CalculatorModInterface
@@ -42,14 +43,7 @@ class CalculatorMod implements CalculatorModInterface
      *
      * @var Comision[]
      */
-    protected $commissions;
-
-    /**
-     * Sales document.
-     *
-     * @var SalesDocument
-     */
-    protected $document;
+    protected $commissions = [];
 
     /**
      * List of penalties for applying discounts.
@@ -60,37 +54,65 @@ class CalculatorMod implements CalculatorModInterface
 
     public function apply(BusinessDocument &$doc, array &$lines): bool
     {
+        if ($doc instanceof SalesDocument) {
+            // cargamos comisiones y penalizaciones aplicables
+            $this->loadCommissions($doc->idempresa, $doc->codagente, $doc->codcliente);
+            $this->loadPenalties($doc->idempresa, $doc->codagente);
+        }
         return true;
     }
 
     public function calculate(BusinessDocument &$doc, array &$lines): bool
     {
         if (false === property_exists($doc, 'totalcomision')) {
+            // si no existe el campo totalcomision, no se calcula nada
+            return true;
+        }
+        if (property_exists($doc, 'idliquidacion') && $doc->idliquidacion) {
+            // si ya hay una liquidación, no se calcula la comisión
             return true;
         }
 
-        $this->document = $doc;
-        $this->loadCommissions();
-        $this->loadPenalties();
-
-        $totalcommission = 0.0;
+        // calculamos el total de comisiones
+        $totalCommission = 0.0;
         foreach ($lines as $line) {
-            if (false === $line->suplido) {
-                $totalcommission += $this->recalculateLine($line);
-            }
+            $totalCommission += $line->porcomision * $line->pvptotal / 100.0;
         }
-
-        $doc->totalcomision = round($totalcommission, (int)FS_NF0);
+        $doc->totalcomision = round($totalCommission, FS_NF0);
         return true;
     }
 
     public function calculateLine(BusinessDocument $doc, BusinessDocumentLine &$line): bool
     {
+        if (false === property_exists($line, 'porcomision')) {
+            // si no hay porcomision, no hay comisiones
+            return true;
+        }
+        if (property_exists($doc, 'idliquidacion') && $doc->idliquidacion) {
+            // si ya hay una liquidación, no se calcula la comisión
+            return true;
+        }
+
+        // calculamos el porcentaje de comisión
+        $line->porcomision = $line->suplido ? 0.0 : $this->getCommission($line);
         return true;
     }
 
     public function clear(BusinessDocument &$doc, array &$lines): bool
     {
+        if (false === property_exists($doc, 'totalcomision')) {
+            // si no hay totalcomision, no hay nada que limpiar
+            return true;
+        }
+        if (property_exists($doc, 'idliquidacion') && $doc->idliquidacion) {
+            // si ya hay una liquidación, no se puede recalcular
+            return true;
+        }
+
+        $doc->totalcomision = 0.0;
+        foreach ($lines as $line) {
+            $line->porcomision = 0.0;
+        }
         return true;
     }
 
@@ -99,42 +121,34 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
-    /**
-     * Gets the commission percentage for the document line.
-     *
-     * @param SalesDocumentLine $line
-     * @return float
-     */
-    protected function getCommission($line)
+    protected function getCommission(SalesDocumentLine $line): float
     {
         $product = $line->getProducto();
         foreach ($this->commissions as $commission) {
-            if ($this->isValidCommissionForLine($line, $product, $commission)) {
-                if ($commission->porcentaje == 0.00 || $line->dtopor == 0.00) {
-                    return $commission->porcentaje;
-                }
-
-                $result = $commission->porcentaje - $this->getPenalty($line->dtopor);
-                if ($result < 0.00) {
-                    $result = 0.00;
-                }
-                return $result;
+            if (false === $this->isValidCommissionForLine($line, $product, $commission)) {
+                continue;
             }
+
+            // si no hay descuento, no hace falta buscar penalizaciones
+            if ($commission->porcentaje == 0.00 || $line->dtopor == 0.00) {
+                return $commission->porcentaje;
+            }
+
+            // si hay descuento, buscamos penalizaciones
+            $result = $commission->porcentaje - $this->getPenalty($line->dtopor);
+            if ($result < 0.00) {
+                $result = 0.00;
+            }
+            return $result;
         }
 
         return 0.0;
     }
 
-    /**
-     * Gets the penalty for the commission if the sale has been discounted.
-     *
-     * @param float $discount
-     * @return float
-     */
-    protected function getPenalty($discount)
+    protected function getPenalty(float $discount): float
     {
         foreach ($this->penalties as $penalty) {
-            if ($this->isValidPenaltyForDiscount($penalty, $discount)) {
+            if ($discount >= $penalty->dto_desde && $discount <= $penalty->dto_hasta) {
                 return $penalty->penalizacion;
             }
         }
@@ -142,41 +156,29 @@ class CalculatorMod implements CalculatorModInterface
         return 0.00;
     }
 
-    /**
-     * Check if the commission record is applicable to the document
-     *
-     * @param Comision $commission
-     *
-     * @return bool
-     */
-    protected function isValidCommissionForDoc($commission): bool
+    protected function isValidCommissionForDoc(Comision $commission, string $codagente, string $codcliente): bool
     {
-        if (!empty($commission->codagente) && $commission->codagente != $this->document->codagente) {
+        // comprobamos el agente
+        if (!empty($commission->codagente) && $commission->codagente != $codagente) {
             return false;
         }
 
-        if (!empty($commission->codcliente) && $commission->codcliente != $this->document->codcliente) {
+        // comprobamos el cliente
+        if (!empty($commission->codcliente) && $commission->codcliente != $codcliente) {
             return false;
         }
 
         return true;
     }
 
-    /**
-     * Check if the commission record is applicable to the line document
-     *
-     * @param SalesDocumentLine $line
-     * @param Producto $product
-     * @param Comision $commission
-     *
-     * @return bool
-     */
-    protected function isValidCommissionForLine(&$line, $product, $commission): bool
+    protected function isValidCommissionForLine(SalesDocumentLine &$line, Producto $product, Comision $commission): bool
     {
+        // comprobamos la familia del producto
         if (!empty($commission->codfamilia) && $commission->codfamilia != $product->codfamilia) {
             return false;
         }
 
+        // comprobamos el producto
         if (!empty($commission->idproducto) && $commission->idproducto != $line->idproducto) {
             return false;
         }
@@ -184,84 +186,41 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
-    /**
-     * Check if the penalty record is applicable to the line document
-     *
-     * @param CommissionPenalty $penalty
-     * @param float $discount
-     * @return bool
-     */
-    protected function isValidPenaltyForDiscount($penalty, $discount): bool
-    {
-        if (!empty($penalty->idempresa) && $penalty->idempresa != $this->document->idempresa) {
-            return false;
-        }
-
-        if ($discount > $penalty->dto_desde) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Charge applicable commissions.
-     */
-    protected function loadCommissions()
+    protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente)
     {
         $this->commissions = [];
-        if (empty($this->document->codagente)) {
+        if (empty($codagente)) {
             return;
         }
 
         $commission = new Comision();
-        $where = [new DataBaseWhere('idempresa', $this->document->idempresa)];
+        $where = [new DataBaseWhere('idempresa', $idempresa)];
         foreach ($commission->all($where, ['prioridad' => 'DESC'], 0, 0) as $comm) {
-            if ($this->isValidCommissionForDoc($comm)) {
+            if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
             }
         }
     }
 
-    /**
-     * Charge applicable penalties.
-     */
-    protected function loadPenalties()
+    protected function loadPenalties(int $idempresa, ?string $codagente)
     {
+        $this->penalties = [];
         if (empty($this->commissions)) {
             return;
         }
 
         $model = new ComisionPenalizacion();
         $where = [
-            new DataBaseWhere('codagente', $this->document->codagente),
-            new DataBaseWhere('idempresa', $this->document->idempresa),
+            new DataBaseWhere('codagente', $codagente),
+            new DataBaseWhere('idempresa', $idempresa),
             new DataBaseWhere('idempresa', null, 'IS', 'OR')
         ];
-
         $order = [
             'COALESCE(idempresa, 9999999)' => 'ASC',
             'dto_desde' => 'ASC'
         ];
-
         foreach ($model->all($where, $order, 0, 0) as $penalty) {
             $this->penalties[] = $penalty;
         }
-    }
-
-    /**
-     * Update commission sale of a document line
-     *
-     * @param SalesDocumentLine $line
-     * @return float
-     */
-    protected function recalculateLine(&$line)
-    {
-        $newValue = $this->getCommission($line);
-        if ($newValue != $line->porcomision && $line->primaryColumnValue()) {
-            $line->porcomision = $newValue;
-            $line->save();
-        }
-
-        return $line->porcomision * $line->pvptotal / 100;
     }
 }

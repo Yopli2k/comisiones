@@ -24,23 +24,18 @@ use FacturaScripts\Core\Base\Translator;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\User;
 
-/**
- * Description of SalesHeaderHTMLMod
- *
- * @author Daniel Fernández Giménez <hola@danielfg.es>
- */
-class SalesHeaderHTMLMod implements SalesModInterface
+class SalesFooterHTMLMod implements SalesModInterface
 {
-
-    public function assets(): void
-    {
-    }
 
     public function apply(SalesDocument &$model, array $formData, User $user)
     {
     }
 
     public function applyBefore(SalesDocument &$model, array $formData, User $user)
+    {
+    }
+
+    public function assets(): void
     {
     }
 
@@ -52,12 +47,12 @@ class SalesHeaderHTMLMod implements SalesModInterface
     public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string
     {
         if ($field === 'totalcomision') {
-            return self::totalcomision($i18n, $model);
+            return $this->totalcomision($i18n, $model);
         }
         return null;
     }
 
-    private static function totalcomision(Translator $i18n, SalesDocument $model): string
+    private function totalcomision(Translator $i18n, SalesDocument $model): string
     {
         return empty($model->{'totalcomision'}) ? '' : '<div class="col-sm">'
             . '<div class="form-group">'

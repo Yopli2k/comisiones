@@ -81,10 +81,6 @@ class SalesLineHTMLMod implements SalesLineModInterface
 
     private function porcomision($i18n, $idlinea, $line, $model): string
     {
-        if (empty($line->porcomision)) {
-            return '';
-        }
-
         return '<div class="col-6">'
             . '<div class="mb-2">' . $i18n->trans('percentage-commission')
             . '<input type="number" name="porcomision_' . $idlinea . '" value="' . $line->porcomision . '" class="form-control" disabled />'

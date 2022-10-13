@@ -26,7 +26,7 @@
                 <widget type="text" fieldname="id" />
             </column>
             <column name="agent" titleurl="ListAgente" order="110">
-                <widget type="select" fieldname="codagente" onclick="EditAgente">
+                <widget type="autocomplete" fieldname="codagente" onclick="EditAgente">
                     <values source="agentes" fieldcode="codagente" fieldtitle="nombre" />
                 </widget>
             </column>

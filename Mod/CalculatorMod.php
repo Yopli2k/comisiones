@@ -66,7 +66,11 @@ class CalculatorMod implements CalculatorModInterface
             // cargamos comisiones y penalizaciones aplicables
             $this->loadCommissions($doc->idempresa, $doc->codagente, $doc->codcliente);
             $this->loadPenalties($doc->idempresa, $doc->codagente);
-            $this->$settlement->loadFromCode($doc->idliquidacion);
+            // cargamos la liquidación del documento
+            if (property_exists($doc, 'idliquidacion')) {
+                $this->settlement = new LiquidacionComision();
+                $this->settlement->loadFromCode($doc->idliquidacion);
+            }
         }
         return true;
     }
@@ -78,7 +82,7 @@ class CalculatorMod implements CalculatorModInterface
             return true;
         }
 
-        if (property_exists($doc, 'idliquidacion') && $this->$settlement->idfactura) {
+        if ($this->isInvoiced($doc)) {
             // si ya hay una liquidación facturada, no se calcula la comisión
             return true;
         }
@@ -98,7 +102,7 @@ class CalculatorMod implements CalculatorModInterface
             // si no hay porcomision, no hay comisiones
             return true;
         }
-        if (property_exists($doc, 'idliquidacion') && $this->$settlement->idfactura) {
+        if ($this->isInvoiced($doc)) {
             // si ya hay una liquidación facturada, no se calcula la comisión
             return true;
         }
@@ -114,7 +118,7 @@ class CalculatorMod implements CalculatorModInterface
             // si no hay totalcomision, no hay nada que limpiar
             return true;
         }
-        if (property_exists($doc, 'idliquidacion') && $this->$settlement->idfactura) {
+        if ($this->isInvoiced($doc)) {
             // si ya hay una liquidación facturada, no se calcula la comisión
             return true;
         }
@@ -232,5 +236,12 @@ class CalculatorMod implements CalculatorModInterface
         foreach ($model->all($where, $order, 0, 0) as $penalty) {
             $this->penalties[] = $penalty;
         }
+    }
+
+    private function isInvoiced(BusinessDocument &$doc): bool
+    {
+        return property_exists($doc, 'idliquidacion')
+            && isset($this->settlement)
+            && !empty($this->settlement->idfactura);
     }
 }

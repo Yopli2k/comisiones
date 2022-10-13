@@ -28,6 +28,7 @@ use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 use FacturaScripts\Dinamic\Model\Comision;
 use FacturaScripts\Dinamic\Model\ComisionPenalizacion;
 use FacturaScripts\Dinamic\Model\Producto;
+use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
 /**
  * Description of CalculatorMod
@@ -52,12 +53,20 @@ class CalculatorMod implements CalculatorModInterface
      */
     protected $penalties = [];
 
+    /**
+     * Settlement associated with the document.
+     *
+     * @var LiquidacionComision
+     */
+    protected $settlement;
+
     public function apply(BusinessDocument &$doc, array &$lines): bool
     {
         if ($doc instanceof SalesDocument) {
             // cargamos comisiones y penalizaciones aplicables
             $this->loadCommissions($doc->idempresa, $doc->codagente, $doc->codcliente);
             $this->loadPenalties($doc->idempresa, $doc->codagente);
+            $this->$settlement->loadFromCode($doc->idliquidacion);
         }
         return true;
     }
@@ -68,8 +77,9 @@ class CalculatorMod implements CalculatorModInterface
             // si no existe el campo totalcomision, no se calcula nada
             return true;
         }
-        if (property_exists($doc, 'idliquidacion') && $doc->idliquidacion) {
-            // si ya hay una liquidación, no se calcula la comisión
+
+        if (property_exists($doc, 'idliquidacion') && $this->$settlement->idfactura) {
+            // si ya hay una liquidación facturada, no se calcula la comisión
             return true;
         }
 
@@ -88,8 +98,8 @@ class CalculatorMod implements CalculatorModInterface
             // si no hay porcomision, no hay comisiones
             return true;
         }
-        if (property_exists($doc, 'idliquidacion') && $doc->idliquidacion) {
-            // si ya hay una liquidación, no se calcula la comisión
+        if (property_exists($doc, 'idliquidacion') && $this->$settlement->idfactura) {
+            // si ya hay una liquidación facturada, no se calcula la comisión
             return true;
         }
 
@@ -104,8 +114,8 @@ class CalculatorMod implements CalculatorModInterface
             // si no hay totalcomision, no hay nada que limpiar
             return true;
         }
-        if (property_exists($doc, 'idliquidacion') && $doc->idliquidacion) {
-            // si ya hay una liquidación, no se puede recalcular
+        if (property_exists($doc, 'idliquidacion') && $this->$settlement->idfactura) {
+            // si ya hay una liquidación facturada, no se calcula la comisión
             return true;
         }
 

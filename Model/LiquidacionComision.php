@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
-use FacturaScripts\Dinamic\Lib\BusinessDocumentTools;
+use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Model\Base;
 use FacturaScripts\Dinamic\Model\Agente;
 use FacturaScripts\Dinamic\Model\Almacen;
@@ -139,6 +139,7 @@ class LiquidacionComision extends Base\ModelClass
             if ($alm->idempresa == $this->idempresa) {
                 $invoice->codalmacen = $alm->codalmacen;
                 $invoice->idempresa = $alm->idempresa;
+                break;
             }
         }
 
@@ -150,9 +151,8 @@ class LiquidacionComision extends Base\ModelClass
             $newLine->pvpunitario = $this->total;
             $newLine->save();
 
-            $docTools = new BusinessDocumentTools();
-            $docTools->recalculate($invoice);
-            if ($invoice->save()) {
+            $lines = [$newLine];
+            if (Calculator::calculate($invoice, $lines, true)) {
                 $this->idfactura = $invoice->idfactura;
                 return $this->save();
             }

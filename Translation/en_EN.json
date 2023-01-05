@@ -1,14 +1,14 @@
 {
-    "agent-penalty-info": "Si el rango de descuento es para todos los agentes o para el agente seleccionado",
-    "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
-    "from-dto": "Para descuentos desde",
-    "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
-    "penalize": "Penalizar",
-    "penalties": "Penalizaciones",
-    "penalty": "Penalización",
-    "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
-    "penalty-help-title": "Penalización por hacer descuentos",
-    "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
+    "agent-penalty-info": "If the discount range is for all agents or for the selected agent",
+    "company-penalty-info": "If the discount range is for all companies or only for the selected one",
+    "from-dto": "For discounts from",
+    "from-penalty-info": "Beginning of the range of the discount to which the penalty is applied",
+    "penalize": "Penalize",
+    "penalties": "Penalties",
+    "penalty": "Penalty",
+    "penalty-help-info": "If an agent makes a discount when making a sale, it is possible to penalize the commission that he will receive for the sale. Through this ratio of percentages, <b>the penalty is subtracted<\/b> from the commission depending on the from\/to where the discount applied by the salesperson of the sale.<br><br ><b>For example:<\/b><br>If we have a record that sets a <i>From<\/i> 1 and a <i>To<\/i> 20, if the agent makes a discount to the customer of 15% the value that we enter in <i>Penalty<\/i> will be subtracted from the commission",
+    "penalty-help-title": "Penalty for making discounts",
+    "penalty-penalty-info": "Percentage that is subtracted from the commission percentage on the sale. (Enter a positive value)",
     "until-dto": "Until discount",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "until-penalty-info": "End of the range of the discount to which the penalty is applied. '100' indicates maximum range"
 }

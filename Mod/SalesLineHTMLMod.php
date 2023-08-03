@@ -39,6 +39,11 @@ class SalesLineHTMLMod implements SalesLineModInterface
     {
     }
 
+    public function getFastLine(SalesDocument $model, array $formData): ?SalesDocumentLine
+    {
+        return null;
+    }
+
     public function map(array $lines, SalesDocument $model): array
     {
         $map = [];

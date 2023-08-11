@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2023 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -26,7 +26,6 @@ use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 
 class SalesLineHTMLMod implements SalesLineModInterface
 {
-
     public function apply(SalesDocument &$model, array &$lines, array $formData)
     {
     }
@@ -37,6 +36,11 @@ class SalesLineHTMLMod implements SalesLineModInterface
 
     public function assets(): void
     {
+    }
+
+    public function getFastLine(SalesDocument $model, array $formData): ?SalesDocumentLine
+    {
+        return null;
     }
 
     public function map(array $lines, SalesDocument $model): array

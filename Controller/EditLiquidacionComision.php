@@ -76,7 +76,9 @@ class EditLiquidacionComision extends EditController
             // recalculate all business documents and save new totals
             foreach ($docs as $invoice) {
                 $lines = $invoice->getLines();
-                Calculator::calculate($invoice, $lines, true);
+                if (false === Calculator::calculate($invoice, $lines, true)) {
+                    throw new Exception('error-calculate-commission', ['%code%' => $invoice->codigo]);
+                }
             }
 
             // update total to settlement commission

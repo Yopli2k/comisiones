@@ -77,7 +77,9 @@ class EditLiquidacionComision extends EditController
             foreach ($docs as $invoice) {
                 $lines = $invoice->getLines();
                 if (false === Calculator::calculate($invoice, $lines, true)) {
-                    throw new Exception('error-calculate-commission', ['%code%' => $invoice->codigo]);
+                    throw new Exception(
+                        $this->toolBox()->i18nLog()->error('error-calculate-commission', ['%code%' => $invoice->codigo])
+                    );
                 }
             }
 

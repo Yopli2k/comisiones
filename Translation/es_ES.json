@@ -1,6 +1,7 @@
 {
     "agent-penalty-info": "Si el rango de descuento es para todos los agentes o para el agente seleccionado",
     "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
+    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
     "from-dto": "Para descuentos desde",
     "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
     "penalize": "Penalizar",
@@ -10,6 +11,5 @@
     "penalty-help-title": "Penalización por hacer descuentos",
     "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
     "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango",
-    "error-calculate-commission": "Error al calcular la comisión del documento %code%"
+    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
 }

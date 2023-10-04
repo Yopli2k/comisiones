@@ -1,6 +1,7 @@
 {
     "agent-penalty-info": "Se o intervalo de desconto é para todos os axentes ou para o axente seleccionado",
     "company-penalty-info": "Se o rango de desconto é para todas as empresas ou só para a seleccionada",
+    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
     "from-dto": "Para descontos desde",
     "from-penalty-info": "Inicio do rango do desconto ao que se aplica a penalización",
     "penalize": "Penalizar",

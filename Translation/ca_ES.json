@@ -1,6 +1,7 @@
 {
     "agent-penalty-info": "Si el rang de descompte és per a tots els agents o per a l'agent seleccionat",
     "company-penalty-info": "Si el rang de descompte és per a totes les empreses o només per a la seleccionada",
+    "error-calculate-commission": "Error en calcular la comissió del document %code%",
     "from-dto": "Per descomptes des",
     "from-penalty-info": "Inici del rang del descompte a què s'aplica la penalització",
     "penalize": "Penalitzar",

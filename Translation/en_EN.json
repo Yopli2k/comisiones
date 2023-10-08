@@ -1,6 +1,7 @@
 {
     "agent-penalty-info": "If the discount range is for all agents or for the selected agent",
     "company-penalty-info": "If the discount range is for all companies or only for the selected one",
+    "error-calculate-commission": "Error calculating the commission for document %code%",
     "from-dto": "For discounts from",
     "from-penalty-info": "Beginning of the range of the discount to which the penalty is applied",
     "penalize": "Penalize",

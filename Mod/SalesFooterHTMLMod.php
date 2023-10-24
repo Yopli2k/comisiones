@@ -53,6 +53,11 @@ class SalesFooterHTMLMod implements SalesModInterface
         return ['totalcomision'];
     }
 
+    public function newModalFields(): array
+    {
+        return [];
+    }
+
     public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string
     {
         if ($field === 'totalcomision') {

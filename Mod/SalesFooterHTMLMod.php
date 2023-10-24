@@ -39,9 +39,19 @@ class SalesFooterHTMLMod implements SalesModInterface
     {
     }
 
+    public function newBtnFields(): array
+    {
+        return [];
+    }
+
     public function newFields(): array
     {
         return ['totalcomision'];
+    }
+
+    public function newModalFields(): array
+    {
+        return [];
     }
 
     public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string

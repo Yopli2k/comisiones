@@ -368,10 +368,7 @@ class EditLiquidacionComision extends EditController
                 'icon' => 'fas fa-percentage',
                 'label' => 'calculate'
             ]);
-        }
 
-        $total = $this->getViewModelValue($mainViewName, 'total');
-        if ($canInvoice && $total > 0) {
             $this->addButton($mainViewName, [
                 'action' => 'generateinvoice',
                 'color' => 'info',

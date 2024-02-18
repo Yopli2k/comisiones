@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -20,6 +20,7 @@
 namespace FacturaScripts\Plugins\Comisiones\Extension\Model\Base;
 
 use Closure;
+use FacturaScripts\Core\Tools;
 
 class SalesDocument
 {
@@ -41,7 +42,7 @@ class SalesDocument
     {
         return function ($field) {
             if ('codagente' === $field && property_exists($this, 'idliquidacion') && $this->idliquidacion) {
-                $this->toolBox()->i18nLog()->warning('cant-change-agent-in-settlement');
+                Tools::log()->warning('cant-change-agent-in-settlement');
                 return false;
             }
         };

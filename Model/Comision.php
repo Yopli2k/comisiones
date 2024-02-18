@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,10 +19,11 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
+use FacturaScripts\Core\Model\Base;
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente as DinAgente;
 use FacturaScripts\Dinamic\Model\Cliente as DinCliente;
 use FacturaScripts\Dinamic\Model\Producto as DinProducto;
-use FacturaScripts\Core\Model\Base;
 
 /**
  * List of a sellers commissions.
@@ -31,7 +32,6 @@ use FacturaScripts\Core\Model\Base;
  */
 class Comision extends Base\ModelClass
 {
-
     use Base\ModelTrait;
 
     /**
@@ -118,7 +118,7 @@ class Comision extends Base\ModelClass
     public function test(): bool
     {
         if (empty($this->idempresa)) {
-            $this->idempresa = $this->toolBox()->appSettings()->get('default', 'idempresa');
+            $this->idempresa = Tools::settings('default', 'idempresa');
         }
 
         return parent::test();

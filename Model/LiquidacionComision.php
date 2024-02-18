@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -21,6 +21,7 @@ namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Model\Base;
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente;
 use FacturaScripts\Dinamic\Model\Almacen;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
@@ -30,11 +31,10 @@ use FacturaScripts\Dinamic\Model\FacturaProveedor;
  * List of Commissions Settlement.
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
- * @author Carlos García Gómez  <carlos@facturascripts.com>
+ * @author Carlos García Gómez           <carlos@facturascripts.com>
  */
 class LiquidacionComision extends Base\ModelClass
 {
-
     use Base\ModelTrait;
 
     /**
@@ -88,7 +88,7 @@ class LiquidacionComision extends Base\ModelClass
     public function clear()
     {
         parent::clear();
-        $this->fecha = date(self::DATE_STYLE);
+        $this->fecha = Tools::date();
         $this->total = 0.0;
     }
 
@@ -125,7 +125,7 @@ class LiquidacionComision extends Base\ModelClass
         $agent = $this->getAgent();
         $contact = $agent->getContact();
         if (empty($contact->codproveedor)) {
-            $this->toolBox()->i18nLog()->warning('agent-dont-have-associated-supplier');
+            Tools::log()->warning('agent-dont-have-associated-supplier');
             return false;
         }
 
@@ -147,7 +147,7 @@ class LiquidacionComision extends Base\ModelClass
             $product = $agent->getProducto();
             $newLine = $product->exists() ? $invoice->getNewProductLine($product->referencia) : $invoice->getNewLine();
             $newLine->cantidad = 1;
-            $newLine->descripcion = $this->toolBox()->i18n()->trans('commission-settlement', ['%code%' => $this->idliquidacion]);
+            $newLine->descripcion = Tools::lang()->trans('commission-settlement', ['%code%' => $this->idliquidacion]);
             $newLine->pvpunitario = $this->total;
             $newLine->save();
 
@@ -192,10 +192,11 @@ class LiquidacionComision extends Base\ModelClass
     public function test(): bool
     {
         if (empty($this->idempresa)) {
-            $this->idempresa = $this->toolBox()->appSettings()->get('default', 'idempresa');
+            $this->idempresa = Tools::settings('default', 'idempresa');
         }
 
-        $this->observaciones = $this->toolBox()->utils()->noHtml($this->observaciones);
+        $this->observaciones = Tools::noHtml($this->observaciones);
+
         return parent::test();
     }
 

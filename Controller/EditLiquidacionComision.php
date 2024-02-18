@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -24,6 +24,7 @@ use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 use FacturaScripts\Dinamic\Model\FacturaProveedor;
 use FacturaScripts\Dinamic\Model\Join\LiquidacionComisionFactura;
@@ -36,7 +37,6 @@ use FacturaScripts\Dinamic\Model\Join\LiquidacionComisionFactura;
  */
 class EditLiquidacionComision extends EditController
 {
-
     const INSERT_DOMICILED_ALL = 'ALL';
     const INSERT_DOMICILED_DOMICILED = 'DOMICILED';
     const INSERT_DOMICILED_WITHOUT = 'WITHOUT';
@@ -66,7 +66,7 @@ class EditLiquidacionComision extends EditController
         $data = $this->request->request->all();
         $docs = $this->getInvoicesFromDataForm($data);
         if (empty($docs)) {
-            $this->toolBox()->i18nLog()->warning('no-selected-item');
+            Tools::log()->warning('no-selected-item');
             return;
         }
 
@@ -78,7 +78,7 @@ class EditLiquidacionComision extends EditController
                 $lines = $invoice->getLines();
                 if (false === Calculator::calculate($invoice, $lines, true)) {
                     throw new Exception(
-                        $this->toolBox()->i18nLog()->error('error-calculate-commission', ['%code%' => $invoice->codigo])
+                        Tools::lang()->trans('error-calculate-commission', ['%code%' => $invoice->codigo])
                     );
                 }
             }
@@ -89,10 +89,10 @@ class EditLiquidacionComision extends EditController
             // confirm changes
             $this->dataBase->commit();
 
-            $this->toolBox()->i18nLog()->notice('record-updated-correctly');
+            Tools::log()->notice('record-updated-correctly');
         } catch (Exception $exc) {
             $this->dataBase->rollback();
-            $this->toolBox()->log()->error($exc->getMessage());
+            Tools::log()->error($exc->getMessage());
         }
     }
 
@@ -186,7 +186,7 @@ class EditLiquidacionComision extends EditController
     protected function generateInvoice(): bool
     {
         if ($this->views[$this->getMainViewName()]->model->generateInvoice()) {
-            $this->toolBox()->i18nLog()->notice('record-updated-correctly');
+            Tools::log()->notice('record-updated-correctly');
 
             // redireccionamos a la factura
             $invoice = new FacturaProveedor();
@@ -197,7 +197,7 @@ class EditLiquidacionComision extends EditController
             return true;
         }
 
-        $this->toolBox()->i18nLog()->error('record-save-error');
+        Tools::log()->error('record-save-error');
         return false;
     }
 

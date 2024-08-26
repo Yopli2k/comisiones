@@ -1,15 +1,15 @@
 {
     "agent-penalty-info": "Si el rang de descompte és per a tots els agents o per a l'agent seleccionat",
-    "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
-    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
-    "from-dto": "Para descuentos desde",
-    "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
-    "penalize": "Penalizar",
-    "penalties": "Penalizaciones",
-    "penalty": "Penalización",
-    "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
-    "penalty-help-title": "Penalización por hacer descuentos",
-    "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
-    "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "company-penalty-info": "Si l'abast de descompte és per a totes les empreses o només per a la seleccionada",
+    "error-calculate-commission": "Error al calcular la comissió del document %code%",
+    "from-dto": "P",
+    "from-penalty-info": "Inici del rang del descompte al qual s'aplica la penalització",
+    "penalize": "Penalitzar",
+    "penalties": "Penalitzacions",
+    "penalty": "Penalització",
+    "penalty-help-info": "Si al realitzar una venda un agent fa un descompte és possible penalitzar la comissió que rebrà per la venda. Mitjançant aquesta relació de percentatges, <b>se resta<\/b> de la comissió <b>la penalització<\/b> segons el des de\/fins on es trobi el descompte aplicat pel comercial en la venda.<br><br><b>Per exemple:<\/b><br>Si tenim un registre que estableix un <i>Des de<\/i> 1 i un <i>Fins<\/i> 20, si l'agent fa un descompte al client d'un 15% se li restarà de la comissió el valor que introduïm en <i>Penalització<\/i>",
+    "penalty-help-title": "Penalització per fer descomptes",
+    "penalty-penalty-info": "Porcentatge que es resta al percentatge de comissió sobre la venda. (Introduïr un valor positiu)",
+    "until-dto": "Fins descompte",
+    "until-penalty-info": "Fi de l'abast del descompte al qual s'aplica la penalització. '100' indica el màxim de l'abast"
 }

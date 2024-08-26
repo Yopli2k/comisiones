@@ -1,15 +1,15 @@
 {
-    "agent-penalty-info": "Si el rango de descuento es para todos los agentes o para el agente seleccionado",
-    "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
-    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
-    "from-dto": "Para descuentos desde",
+    "agent-penalty-info": "Se o intervalo de desconto é para todos os agentes ou para o agente selecionado",
+    "company-penalty-info": "Se o intervalo de desconto é para todas as empresas ou apenas para a selecionada",
+    "error-calculate-commission": "Erro ao calcular a comissão do documento %code%",
+    "from-dto": "Para descontos desde",
     "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
     "penalize": "Penalizar",
-    "penalties": "Penalizaciones",
+    "penalties": "Penalizações",
     "penalty": "Penalización",
-    "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
-    "penalty-help-title": "Penalización por hacer descuentos",
-    "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
-    "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "penalty-help-info": "Se, ao realizar uma venda, um agente aplica um desconto, é possível penalizar a comissão que receberá pela venda. Por meio desta relação de porcentagens, <b>é subtraído<\/b> da comissão <b>a penalização<\/b> de acordo com o intervalo onde se encontra o desconto aplicado pelo vendedor na venda.<br><br><b>Por exemplo:<\/b><br>Se tivermos um registro que estabelece um <i>De<\/i> 1 e um <i>Até<\/i> 20, se o agente der um desconto ao cliente de 15%, será subtraído da comissão o valor que inserirmos em <i>Penalização<\/i>.",
+    "penalty-help-title": "Penalização por fazer descontos",
+    "penalty-penalty-info": "Percentagem a subtrair à comissão sobre a venda. (Introduzir um valor positivo)",
+    "until-dto": "Até desconto",
+    "until-penalty-info": "Até a informação sobre a penalização para o final da faixa de desconto. '100' indica o máximo da faixa"
 }

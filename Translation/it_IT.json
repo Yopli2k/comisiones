@@ -1,15 +1,15 @@
 {
-    "agent-penalty-info": "Si el rango de descuento es para todos los agentes o para el agente seleccionado",
-    "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
-    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
-    "from-dto": "Para descuentos desde",
-    "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
-    "penalize": "Penalizar",
-    "penalties": "Penalizaciones",
-    "penalty": "Penalización",
-    "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
-    "penalty-help-title": "Penalización por hacer descuentos",
-    "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
-    "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "agent-penalty-info": "Se lo sconto è per tutti gli agenti o per l'agente selezionato",
+    "company-penalty-info": "Se l'intervallo di sconto è per tutte le aziende o solo per quella selezionata",
+    "error-calculate-commission": "Errore nel calcolare la commissione del documento %code%",
+    "from-dto": "Per sconti da",
+    "from-penalty-info": "Inizio dell'intervallo dello sconto a cui si applica la penalità",
+    "penalize": "Penalizzare",
+    "penalties": "Penalità",
+    "penalty": "Penalità",
+    "penalty-help-info": "Se durante una vendita un agente applica uno sconto è possibile penalizzare la commissione che riceverà per la vendita. Attraverso questa relazione percentuale, <b>la penalizzazione<\/b> viene sottratta dalla commissione in base alla fascia di sconto applicata dal commerciale nella vendita.<br><br><b>Per esempio:<\/b><br>Se abbiamo un registro che indica un <i>Da<\/i> 1 e un <i>A<\/i> 20, se l'agente applica uno sconto al cliente del 15% allora verrà detratto dalla commissione il valore che inseriamo in <i>Penalità<\/i>",
+    "penalty-help-title": "Penalizzazione per fare sconti",
+    "penalty-penalty-info": "Percentuale sottratta alla percentuale di commissione sulla vendita. (Inserire un valore positivo)",
+    "until-dto": "Fino a dto",
+    "until-penalty-info": "Fine dell'intervallo dello sconto a cui si applica la penalità. '100' indica il massimo dell'intervallo"
 }

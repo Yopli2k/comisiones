@@ -55,7 +55,7 @@
         </column>
     </columns>
     <modals>
-        <group name="gen-settlements" title="generate-settlements" icon="fas fa-magic">
+        <group name="gen-settlements" title="generate-settlements" icon="fa-solid fa-magic">
             <column name="from-date" order="100">
                 <widget type="date" fieldname="datefrom" />
             </column>

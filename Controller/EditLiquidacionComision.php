@@ -20,8 +20,8 @@
 namespace FacturaScripts\Plugins\Comisiones\Controller;
 
 use Exception;
-use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;
@@ -54,7 +54,7 @@ class EditLiquidacionComision extends EditController
         $data = parent::getPageData();
         $data['menu'] = 'admin';
         $data['title'] = 'settlement';
-        $data['icon'] = 'fas fa-chalkboard-teacher';
+        $data['icon'] = 'fa-solid fa-chalkboard-teacher';
         return $data;
     }
 
@@ -112,7 +112,7 @@ class EditLiquidacionComision extends EditController
      */
     protected function createSettledInvoiceView(string $viewName = self::VIEWNAME_SETTLEDINVOICE)
     {
-        $this->addListView($viewName, 'Join\LiquidacionComisionFactura', 'invoices', 'fas fa-file-invoice');
+        $this->addListView($viewName, 'Join\LiquidacionComisionFactura', 'invoices', 'fa-solid fa-file-invoice');
         $this->views[$viewName]->addOrderBy(['fecha', 'idfactura'], 'date', 2);
         $this->views[$viewName]->addOrderBy(['total'], 'amount');
         $this->views[$viewName]->addOrderBy(['totalcomision'], 'commission');
@@ -365,7 +365,7 @@ class EditLiquidacionComision extends EditController
             $this->addButton($viewName, [
                 'action' => 'calculatecommission',
                 'confirm' => 'true',
-                'icon' => 'fas fa-percentage',
+                'icon' => 'fa-solid fa-percentage',
                 'label' => 'calculate'
             ]);
 
@@ -373,7 +373,7 @@ class EditLiquidacionComision extends EditController
                 'action' => 'generateinvoice',
                 'color' => 'info',
                 'confirm' => true,
-                'icon' => 'fas fa-file-invoice',
+                'icon' => 'fa-solid fa-file-invoice',
                 'label' => 'generate-invoice'
             ]);
         }

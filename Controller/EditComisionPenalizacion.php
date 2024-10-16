@@ -40,7 +40,7 @@ class EditComisionPenalizacion extends EditController
         $pagedata = parent::getPageData();
         $pagedata['menu'] = 'admin';
         $pagedata['title'] = 'penalize';
-        $pagedata['icon'] = 'fas fa-minus-circle';
+        $pagedata['icon'] = 'fa-solid fa-minus-circle';
         return $pagedata;
     }
 

@@ -19,10 +19,10 @@
 
 namespace FacturaScripts\Plugins\Comisiones;
 
-use FacturaScripts\Core\Base\AjaxForms\SalesFooterHTML;
-use FacturaScripts\Core\Base\AjaxForms\SalesLineHTML;
-use FacturaScripts\Core\Base\Calculator;
-use FacturaScripts\Core\Base\InitClass;
+use FacturaScripts\Core\Lib\AjaxForms\SalesFooterHTML;
+use FacturaScripts\Core\Lib\AjaxForms\SalesLineHTML;
+use FacturaScripts\Core\Lib\Calculator;
+use FacturaScripts\Core\Template\InitClass;
 use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
 /**
@@ -32,7 +32,7 @@ use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
  */
 final class Init extends InitClass
 {
-    public function init()
+    public function init(): void
     {
         $this->loadExtension(new Extension\Controller\ListAgente());
         $this->loadExtension(new Extension\Controller\EditAgente());
@@ -44,7 +44,11 @@ final class Init extends InitClass
         SalesLineHTML::addMod(new Mod\SalesLineHTMLMod());
     }
 
-    public function update()
+    public function uninstall(): void
+    {
+    }
+
+    public function update(): void
     {
         new LiquidacionComision();
     }

@@ -60,7 +60,7 @@
         </row>
     </rows>
     <modals>
-        <group name="insertinvoices" title="add-invoices" icon="fas fa-file-invoice">
+        <group name="insertinvoices" title="add-invoices" icon="fa-solid fa-file-invoice">
             <column name="idsettled" display="none" order="0">
                 <widget type="text" fieldname="idliquidacion" readonly="true" />
             </column>

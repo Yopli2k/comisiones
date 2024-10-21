@@ -19,7 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
-use FacturaScripts\Core\Base\Calculator;
+use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Model\Base;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente;

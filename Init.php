@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts.
- * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,7 +22,7 @@ namespace FacturaScripts\Plugins\Comisiones;
 use FacturaScripts\Core\Base\AjaxForms\SalesFooterHTML;
 use FacturaScripts\Core\Base\AjaxForms\SalesLineHTML;
 use FacturaScripts\Core\Base\Calculator;
-use FacturaScripts\Core\Base\InitClass;
+use FacturaScripts\Core\Template\InitClass;
 use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
 /**
@@ -32,7 +32,7 @@ use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
  */
 final class Init extends InitClass
 {
-    public function init()
+    public function init(): void
     {
         $this->loadExtension(new Extension\Controller\ListAgente());
         $this->loadExtension(new Extension\Controller\EditAgente());
@@ -44,7 +44,11 @@ final class Init extends InitClass
         SalesLineHTML::addMod(new Mod\SalesLineHTMLMod());
     }
 
-    public function update()
+    public function uninstall(): void
+    {
+    }
+
+    public function update(): void
     {
         new LiquidacionComision();
     }

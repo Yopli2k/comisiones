@@ -1,15 +1,15 @@
 {
-    "agent-penalty-info": "Si el rango de descuento es para todos los agentes o para el agente seleccionado",
-    "company-penalty-info": "Si el rango de descuento es para todas las empresas o sólo para la seleccionada",
-    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
-    "from-dto": "Para descuentos desde",
-    "from-penalty-info": "Inicio del rango del descuento al que se aplica la penalización",
-    "penalize": "Penalizar",
-    "penalties": "Penalizaciones",
-    "penalty": "Penalización",
-    "penalty-help-info": "Si al realizar una venta un agente hace un descuento es posible penalizar la comisión que recibirá por la venta. Mediante esta relación de porcentajes, <b>se resta<\/b> de la comisión <b>la penalización<\/b> según el desde\/hasta donde se encuentre el descuento aplicado por el comercial en la venta.<br><br><b>Por ejemplo:<\/b><br>Si tenemos un registro que establece un <i>Desde<\/i> 1 y un <i>Hasta<\/i> 20, si el agente hace un descuento al cliente de un 15% pues se le restará de la comisión el valor que introduzcamos en <i>Penalización<\/i>",
-    "penalty-help-title": "Penalización por hacer descuentos",
-    "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
-    "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "agent-penalty-info": "Czy zakres zniżki dotyczy wszystkich agentów, czy tylko wybranego agenta.",
+    "company-penalty-info": "Czy zakres zniżki dotyczy wszystkich firm, czy tylko wybranej",
+    "error-calculate-commission": "Błąd podczas obliczania prowizji dokumentu %code%",
+    "from-dto": "Na rabaty od",
+    "from-penalty-info": "Początek zakresu zniżki, do której stosuje się karę",
+    "penalize": "Ukarać",
+    "penalties": "Kary",
+    "penalty": "Kara",
+    "penalty-help-info": "Jeśli podczas sprzedaży agent udziela rabatu, możliwe jest nałożenie kary na prowizję otrzymywaną za sprzedaż. Przez ten stosunek procentowy, <b>od prowizji odejmowana<\/b> jest <b>kara<\/b> w zależności od zakresu, w którym zastosowany jest rabat przez handlowca podczas sprzedaży.<br><br><b>Na przykład:<\/b><br>Jeśli mamy wpis, który ustala <i>Od<\/i> 1, a <i>Do<\/i> 20, jeśli agent udziela klientowi rabatu w wysokości 15%, to od prowizji zostanie odjęta wartość wprowadzona w <i>Kara<\/i>",
+    "penalty-help-title": "Kara za udzielanie rabatów",
+    "penalty-penalty-info": "Procent, który jest odejmowany od procentu prowizji od sprzedaży. (Wprowadź dodatnią wartość)",
+    "until-dto": "Do zniżki",
+    "until-penalty-info": "Koniec zakresu zniżki, do którego stosuje się karę. '100' oznacza najwyższy zakres"
 }

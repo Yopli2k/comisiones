@@ -45,12 +45,12 @@ class SalesFooterHTMLMod implements SalesModInterface
 
     public function newFields(): array
     {
-        return [];
+        return ['totalcomision'];
     }
 
     public function newModalFields(): array
     {
-        return ['totalcomision'];
+        return [];
     }
 
     public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string

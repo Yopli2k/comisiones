@@ -20,11 +20,11 @@
 namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
 use Closure;
-use FacturaScripts\Core\Base\Calculator;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Agentes;
 use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\DataSrc\Series;
+use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
@@ -50,7 +50,7 @@ class ListAgente
     protected function createCommissionView(): Closure
     {
         return function (string $viewName = 'ListComision') {
-            $this->addView($viewName, 'Comision', 'commissions', 'fas fa-percentage');
+            $this->addView($viewName, 'Comision', 'commissions', 'fa-solid fa-percentage');
             $this->addOrderBy($viewName, ['idcomision'], 'code');
             $this->addOrderBy($viewName, ['prioridad'], 'priority', 2);
             $this->addOrderBy($viewName, ['idempresa', 'codagente', 'porcentaje'], 'company');
@@ -71,7 +71,7 @@ class ListAgente
     protected function createPenaltyView(): Closure
     {
         return function (string $viewName = 'ListComisionPenalizacion') {
-            $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
+            $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fa-solid fa-minus-circle');
             $this->addOrderBy($viewName, ['id'], 'code');
             $this->addOrderBy($viewName, ['idempresa', 'codagente', 'dto_desde'], 'company');
             $this->addOrderBy($viewName, ['codagente', 'idempresa', 'dto_desde'], 'agent', 1);
@@ -85,7 +85,7 @@ class ListAgente
     protected function createSettlementView(): Closure
     {
         return function (string $viewName = 'ListLiquidacionComision') {
-            $this->addView($viewName, 'LiquidacionComision', 'settlements', 'fas fa-chalkboard-teacher');
+            $this->addView($viewName, 'LiquidacionComision', 'settlements', 'fa-solid fa-chalkboard-teacher');
             $this->addOrderBy($viewName, ['fecha', 'idliquidacion'], 'date', 2);
             $this->addOrderBy($viewName, ['codagente', 'fecha'], 'agent');
             $this->addOrderBy($viewName, ['total', 'fecha'], 'amount');
@@ -99,7 +99,7 @@ class ListAgente
 
             $this->addButton($viewName, [
                 'action' => 'gen-settlements',
-                'icon' => 'fas fa-magic',
+                'icon' => 'fa-solid fa-magic',
                 'label' => 'generate',
                 'type' => 'modal'
             ]);

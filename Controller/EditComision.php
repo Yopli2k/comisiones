@@ -40,7 +40,7 @@ class EditComision extends EditController
         $pagedata = parent::getPageData();
         $pagedata['menu'] = 'admin';
         $pagedata['title'] = 'commission';
-        $pagedata['icon'] = 'fas fa-percentage';
+        $pagedata['icon'] = 'fa-solid fa-percentage';
         return $pagedata;
     }
 

@@ -34,10 +34,10 @@
                 <widget type="number" decimal="2" min="0.01" max="999.99" step="0.01" fieldname="porcentaje" icon="fas fa-percentage" required="true" />
             </column>
             <column name="priority" order="130">
-                <widget type="number" decimal="0" fieldname="prioridad" icon="fas fa-sort-numeric-down-alt" required="true" />
+                <widget type="number" decimal="0" fieldname="prioridad" icon="fa-solid fa-sort-numeric-down-alt" required="true" />
             </column>
         </group>
-        <group name="conditions" title="conditions" icon="fas fa-filter" numcolumns="12">
+        <group name="conditions" title="conditions" icon="fa-solid fa-filter" numcolumns="12">
             <column name="company" order="100">
                 <widget type="select" fieldname="idempresa" onclick="EditEmpresa" required="true" readonly="dinamic">
                     <values source="empresas" fieldcode="idempresa" fieldtitle="nombrecorto" />

@@ -21,6 +21,8 @@ namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
 use Closure;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\Tools;
+
 
 /**
  * Description of EditAgente
@@ -43,7 +45,7 @@ class EditAgente
     protected function createCommissionsView(): Closure
     {
         return function (string $viewName = 'ListComision') {
-            $this->addListView($viewName, 'Comision', 'commissions', 'fas fa-percentage');
+            $this->addListView($viewName, 'Comision', 'commissions', 'fa-solid fa-percentage');
             $this->views[$viewName]->addOrderBy(['prioridad'], 'priority', 2);
             $this->views[$viewName]->addOrderBy(['porcentaje'], 'percentage');
 
@@ -55,7 +57,7 @@ class EditAgente
     protected function createPenalizeView(): Closure
     {
         return function (string $viewName = 'EditComisionPenalizacion') {
-            $this->addEditListView($viewName, 'ComisionPenalizacion', 'penalize', 'fas fa-minus-circle');
+            $this->addEditListView($viewName, 'ComisionPenalizacion', 'penalize', 'fa-solid fa-minus-circle');
             $this->views[$viewName]->setInline(true);
 
             // disable company column if there is only one company
@@ -70,7 +72,7 @@ class EditAgente
     protected function createSettlementView(): Closure
     {
         return function (string $viewName = 'ListLiquidacionComision') {
-            $this->addListView($viewName, 'LiquidacionComision', 'settlements', 'fas fa-chalkboard-teacher');
+            $this->addListView($viewName, 'LiquidacionComision', 'settlements', 'fa-solid fa-chalkboard-teacher');
             $this->views[$viewName]->addOrderBy(['fecha'], 'date', 2);
             $this->views[$viewName]->addOrderBy(['total'], 'amount');
         };

@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022-2023 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,18 +19,18 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
-use FacturaScripts\Core\Base\Contract\SalesLineModInterface;
-use FacturaScripts\Core\Base\Translator;
+use FacturaScripts\Core\Contract\SalesLineModInterface;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
+use FacturaScripts\Core\Tools;
 
 class SalesLineHTMLMod implements SalesLineModInterface
 {
-    public function apply(SalesDocument &$model, array &$lines, array $formData)
+    public function apply(SalesDocument &$model, array &$lines, array $formData): void
     {
     }
 
-    public function applyToLine(array $formData, SalesDocumentLine &$line, string $id)
+    public function applyToLine(array $formData, SalesDocumentLine &$line, string $id): void
     {
     }
 
@@ -70,23 +70,23 @@ class SalesLineHTMLMod implements SalesLineModInterface
         return [];
     }
 
-    public function renderField(Translator $i18n, string $idlinea, SalesDocumentLine $line, SalesDocument $model, string $field): ?string
+    public function renderField(string $idlinea, SalesDocumentLine $line, SalesDocument $model, string $field): ?string
     {
         if ($field === 'porcomision') {
-            return $this->porcomision($i18n, $idlinea, $line, $model);
+            return $this->porcomision($idlinea, $line, $model);
         }
         return null;
     }
 
-    public function renderTitle(Translator $i18n, SalesDocument $model, string $field): ?string
+    public function renderTitle(SalesDocument $model, string $field): ?string
     {
         return null;
     }
 
-    private function porcomision($i18n, $idlinea, $line, $model): string
+    private function porcomision($idlinea, $line, $model): string
     {
         return '<div class="col-6">'
-            . '<div class="mb-2">' . $i18n->trans('percentage-commission')
+            . '<div class="mb-2">' . Tools::lang()->trans('percentage-commission')
             . '<input type="number" name="porcomision_' . $idlinea . '" value="' . $line->porcomision . '" class="form-control" disabled />'
             . '</div>'
             . '</div>';

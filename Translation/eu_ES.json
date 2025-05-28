@@ -1,7 +1,7 @@
 {
     "agent-penalty-info": "Deskontu tartea agente guztientzat edo hautatutako agentearentzat bada",
     "company-penalty-info": "Deskontu tartea enpresa guztientzat edo hautatutakoarentzat soilik bada",
-    "error-calculate-commission": "Error al calcular la comisión del documento %code%",
+    "error-calculate-commission": "Errorea %code% dokumentuaren komisioa kalkulatzean",
     "from-dto": "Deskontuetarako",
     "from-penalty-info": "Penalizazioa aplikatzen zaion deskontuaren tartearen hasiera",
     "penalize": "Penalizatu",

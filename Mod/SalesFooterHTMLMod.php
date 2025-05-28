@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts
- * Copyright (C) 2022-2024 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2022-2023 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -19,17 +19,19 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
-use FacturaScripts\Core\Contract\SalesModInterface;
+use FacturaScripts\Core\Base\Contract\SalesModInterface;
+use FacturaScripts\Core\Base\Translator;
 use FacturaScripts\Core\Model\Base\SalesDocument;
+use FacturaScripts\Core\Model\User;
 use FacturaScripts\Core\Tools;
 
 class SalesFooterHTMLMod implements SalesModInterface
 {
-    public function apply(SalesDocument &$model, array $formData): void
+    public function apply(SalesDocument &$model, array $formData, User $user)
     {
     }
 
-    public function applyBefore(SalesDocument &$model, array $formData): void
+    public function applyBefore(SalesDocument &$model, array $formData, User $user)
     {
     }
 
@@ -44,29 +46,35 @@ class SalesFooterHTMLMod implements SalesModInterface
 
     public function newFields(): array
     {
-        return ['totalcomision'];
+        return [];
     }
 
     public function newModalFields(): array
     {
-        return [];
+        return ['totalcomision'];
     }
 
-    public function renderField(SalesDocument $model, string $field): ?string
+    public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string
     {
         if ($field === 'totalcomision') {
-            return $this->totalcomision($model);
+            return $this->totalcomision($i18n, $model);
         }
         return null;
     }
 
-    private function totalcomision(SalesDocument $model): string
+    private function totalcomision(Translator $i18n, SalesDocument $model): string
     {
-        return empty($model->{'totalcomision'}) ? '' : '<div class="col-sm">'
-            . '<div class="mb-3">'
-            . Tools::lang()->trans('commission')
-            . '<input type="number" name="totalcomision" value="' . $model->totalcomision . '" class="form-control" disabled />'
+        if (false === property_exists($model, 'totalcomision')) {
+            return '';
+        }
+
+        return '<div class="col-sm-3">'
+            . '<div class="form-group">'
+                . $i18n->trans('commission')
+                . '<input type="text" name="totalcomision" class="form-control text-right" disabled'
+                    . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
+                . '/>'
             . '</div>'
-            . '</div>';
+        . '</div>';
     }
 }

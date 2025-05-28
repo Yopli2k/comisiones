@@ -19,7 +19,8 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
-use FacturaScripts\Core\Contract\SalesLineModInterface;
+use FacturaScripts\Core\Base\Contract\SalesLineModInterface;
+use FacturaScripts\Core\Base\Translator;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 use FacturaScripts\Core\Tools;
@@ -70,7 +71,7 @@ class SalesLineHTMLMod implements SalesLineModInterface
         return [];
     }
 
-    public function renderField(string $idlinea, SalesDocumentLine $line, SalesDocument $model, string $field): ?string
+    public function renderField(Translator $i18n, string $idlinea, SalesDocumentLine $line, SalesDocument $model, string $field): ?string
     {
         if ($field === 'porcomision') {
             return $this->porcomision($idlinea, $line, $model);
@@ -78,7 +79,7 @@ class SalesLineHTMLMod implements SalesLineModInterface
         return null;
     }
 
-    public function renderTitle(SalesDocument $model, string $field): ?string
+    public function renderTitle(Translator $i18n, SalesDocument $model, string $field): ?string
     {
         return null;
     }

@@ -50,52 +50,46 @@ class ListAgente
     protected function createCommissionView(): Closure
     {
         return function (string $viewName = 'ListComision') {
-            $this->addView($viewName, 'Comision', 'commissions', 'fa-solid fa-percentage');
-            $this->addOrderBy($viewName, ['idcomision'], 'code');
-            $this->addOrderBy($viewName, ['prioridad'], 'priority', 2);
-            $this->addOrderBy($viewName, ['idempresa', 'codagente', 'porcentaje'], 'company');
-            $this->addOrderBy($viewName, ['codagente', 'codcliente', 'codfamilia', 'idproducto', 'porcentaje'], 'agent');
-            $this->addOrderBy($viewName, ['codcliente', 'codfamilia', 'idproducto', 'porcentaje'], 'customer');
-            $this->addOrderBy($viewName, ['codfamilia', 'idproducto', 'porcentaje'], 'family');
-            $this->addSearchFields($viewName, ['codagente', 'codcliente']);
-
-            // Filters
-            $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', Empresas::codeModel());
-            $this->addFilterAutocomplete($viewName, 'agent', 'agent', 'codagente', 'agentes', 'codagente', 'nombre');
-            $this->addFilterAutocomplete($viewName, 'customer', 'customer', 'codcliente', 'Cliente', 'codcliente');
-            $this->addFilterAutocomplete($viewName, 'family', 'family', 'codfamilia', 'Familia', 'codfamilia');
-            $this->addFilterAutocomplete($viewName, 'product', 'product', 'referencia', 'Producto', 'referencia', 'descripcion');
+            $this->addView($viewName, 'Comision', 'commissions', 'fa-solid fa-percentage')
+                ->addOrderBy(['idcomision'], 'code')
+                ->addOrderBy(['prioridad'], 'priority', 2)
+                ->addOrderBy(['idempresa', 'codagente', 'porcentaje'], 'company')
+                ->addOrderBy(['codagente', 'codcliente', 'codfamilia', 'idproducto', 'porcentaje'], 'agent')
+                ->addOrderBy(['codcliente', 'codfamilia', 'idproducto', 'porcentaje'], 'customer')
+                ->addOrderBy(['codfamilia', 'idproducto', 'porcentaje'], 'family')
+                ->addSearchFields(['codagente', 'codcliente'])
+                ->addFilterSelect('idempresa', 'company', 'idempresa', Empresas::codeModel())
+                ->addFilterAutocomplete('agent', 'agent', 'codagente', 'agentes', 'codagente', 'nombre')
+                ->addFilterAutocomplete('customer', 'customer', 'codcliente', 'Cliente', 'codcliente')
+                ->addFilterAutocomplete('family', 'family', 'codfamilia', 'Familia', 'codfamilia')
+                ->addFilterAutocomplete('product', 'product', 'referencia', 'Producto', 'referencia', 'descripcion');
         };
     }
 
     protected function createPenaltyView(): Closure
     {
         return function (string $viewName = 'ListComisionPenalizacion') {
-            $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fa-solid fa-minus-circle');
-            $this->addOrderBy($viewName, ['id'], 'code');
-            $this->addOrderBy($viewName, ['idempresa', 'codagente', 'dto_desde'], 'company');
-            $this->addOrderBy($viewName, ['codagente', 'idempresa', 'dto_desde'], 'agent', 1);
-
-            // Filters
-            $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', Empresas::codeModel());
-            $this->addFilterAutocomplete($viewName, 'agent', 'agent', 'codagente', 'agentes', 'codagente', 'nombre');
+            $this->addView($viewName, 'ComisionPenalizacion', 'penalize', 'fa-solid fa-minus-circle')
+                ->addOrderBy(['id'], 'code')
+                ->addOrderBy(['idempresa', 'codagente', 'dto_desde'], 'company')
+                ->addOrderBy(['codagente', 'idempresa', 'dto_desde'], 'agent', 1)
+                ->addFilterSelect('idempresa', 'company', 'idempresa', Empresas::codeModel())
+                ->addFilterAutocomplete('agent', 'agent', 'codagente', 'agentes', 'codagente', 'nombre');
         };
     }
 
     protected function createSettlementView(): Closure
     {
         return function (string $viewName = 'ListLiquidacionComision') {
-            $this->addView($viewName, 'LiquidacionComision', 'settlements', 'fa-solid fa-chalkboard-teacher');
-            $this->addOrderBy($viewName, ['fecha', 'idliquidacion'], 'date', 2);
-            $this->addOrderBy($viewName, ['codagente', 'fecha'], 'agent');
-            $this->addOrderBy($viewName, ['total', 'fecha'], 'amount');
-            $this->addSearchFields($viewName, ['observaciones']);
-
-            // Filters
-            $this->addFilterPeriod($viewName, 'fecha', 'date', 'fecha');
-            $this->addFilterSelect($viewName, 'idempresa', 'company', 'idempresa', Empresas::codeModel());
-            $this->addFilterSelect($viewName, 'codserie', 'serie', 'codserie', Series::codeModel());
-            $this->addFilterSelect($viewName, 'codagente', 'agent', 'codagente', Agentes::codeModel());
+            $this->addView($viewName, 'LiquidacionComision', 'settlements', 'fa-solid fa-chalkboard-teacher')
+                ->addOrderBy(['fecha', 'idliquidacion'], 'date', 2)
+                ->addOrderBy(['codagente', 'fecha'], 'agent')
+                ->addOrderBy(['total', 'fecha'], 'amount')
+                ->addSearchFields(['observaciones'])
+                ->addFilterPeriod('fecha', 'date', 'fecha')
+                ->addFilterSelect('idempresa', 'company', 'idempresa', Empresas::codeModel())
+                ->addFilterSelect('codserie', 'serie', 'codserie', Series::codeModel())
+                ->addFilterSelect('codagente', 'agent', 'codagente', Agentes::codeModel());
 
             $this->addButton($viewName, [
                 'action' => 'gen-settlements',
@@ -125,7 +119,6 @@ class ListAgente
 
             $generated = 0;
             foreach (Agentes::all() as $agente) {
-                $invoiceModel = new FacturaCliente();
                 $where = [
                     new DataBaseWhere('idliquidacion', null, 'IS'),
                     new DataBaseWhere('idempresa', $idempresa),
@@ -141,7 +134,7 @@ class ListAgente
                     $where[] = new DataBaseWhere('fecha', $dateTo, '<=');
                 }
 
-                $invoices = $invoiceModel->all($where, [], 0, 0);
+                $invoices = FacturaCliente::all($where, [], 0, 0);
                 if (count($invoices)) {
                     $this->newSettlement($agente->codagente, $idempresa, $codserie, $invoices);
                     $generated++;

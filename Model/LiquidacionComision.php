@@ -20,7 +20,8 @@
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Core\Lib\Calculator;
-use FacturaScripts\Core\Model\Base;
+use FacturaScripts\Core\Template\ModelClass;
+use FacturaScripts\Core\Template\ModelTrait;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente;
 use FacturaScripts\Dinamic\Model\Almacen;
@@ -33,9 +34,9 @@ use FacturaScripts\Dinamic\Model\FacturaProveedor;
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  * @author Carlos García Gómez           <carlos@facturascripts.com>
  */
-class LiquidacionComision extends Base\ModelClass
+class LiquidacionComision extends ModelClass
 {
-    use Base\ModelTrait;
+    use ModelTrait;
 
     /**
      * id of agent.
@@ -85,7 +86,7 @@ class LiquidacionComision extends Base\ModelClass
      */
     public $total;
 
-    public function clear()
+    public function clear(): void
     {
         parent::clear();
         $this->fecha = Tools::date();
@@ -104,15 +105,15 @@ class LiquidacionComision extends Base\ModelClass
             . ' SET total = COALESCE('
             . '(SELECT SUM(totalcomision)'
             . ' FROM ' . FacturaCliente::tableName()
-            . ' WHERE idliquidacion = ' . self::$dataBase->var2str($code) . ')'
+            . ' WHERE idliquidacion = ' . self::db()->var2str($code) . ')'
             . ',0)'
-            . ' WHERE idliquidacion = ' . self::$dataBase->var2str($code);
+            . ' WHERE idliquidacion = ' . self::db()->var2str($code);
 
-        return self::$dataBase->exec($sql);
+        return self::db()->exec($sql);
     }
 
     /**
-     * Generates an supplier invoice with this settlement.
+     * Generates a supplier invoice with this settlement.
      *
      * @return bool
      */
@@ -166,7 +167,7 @@ class LiquidacionComision extends Base\ModelClass
     public function getAgent(): Agente
     {
         $agent = new Agente();
-        $agent->loadFromCode($this->codagente);
+        $agent->load($this->codagente);
         return $agent;
     }
 

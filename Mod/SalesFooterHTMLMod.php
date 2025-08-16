@@ -19,19 +19,17 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
-use FacturaScripts\Core\Base\Contract\SalesModInterface;
-use FacturaScripts\Core\Base\Translator;
+use FacturaScripts\Core\Contract\SalesModInterface;
 use FacturaScripts\Core\Model\Base\SalesDocument;
-use FacturaScripts\Core\Model\User;
 use FacturaScripts\Core\Tools;
 
 class SalesFooterHTMLMod implements SalesModInterface
 {
-    public function apply(SalesDocument &$model, array $formData, User $user)
+    public function apply(SalesDocument &$model, array $formData): void
     {
     }
 
-    public function applyBefore(SalesDocument &$model, array $formData, User $user)
+    public function applyBefore(SalesDocument &$model, array $formData): void
     {
     }
 
@@ -54,27 +52,28 @@ class SalesFooterHTMLMod implements SalesModInterface
         return ['totalcomision'];
     }
 
-    public function renderField(Translator $i18n, SalesDocument $model, string $field): ?string
+    public function renderField(SalesDocument $model, string $field): ?string
     {
         if ($field === 'totalcomision') {
-            return $this->totalcomision($i18n, $model);
+            return $this->totalcomision($model);
         }
+
         return null;
     }
 
-    private function totalcomision(Translator $i18n, SalesDocument $model): string
+    private function totalcomision(SalesDocument $model): string
     {
         if (false === property_exists($model, 'totalcomision')) {
             return '';
         }
 
         return '<div class="col-sm-3">'
-            . '<div class="form-group">'
-                . $i18n->trans('commission')
-                . '<input type="text" name="totalcomision" class="form-control text-right" disabled'
-                    . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
-                . '/>'
+            . '<div class="mb-3">'
+            . Tools::trans('commission')
+            . '<input type="text" name="totalcomision" class="form-control text-end" disabled'
+            . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
+            . '/>'
             . '</div>'
-        . '</div>';
+            . '</div>';
     }
 }

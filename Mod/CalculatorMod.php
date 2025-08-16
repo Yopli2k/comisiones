@@ -19,13 +19,13 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
-use FacturaScripts\Core\Base\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
-
+use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Comision;
 use FacturaScripts\Dinamic\Model\ComisionPenalizacion;
 use FacturaScripts\Dinamic\Model\Producto;
@@ -39,7 +39,6 @@ use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
  */
 class CalculatorMod implements CalculatorModInterface
 {
-
     /**
      * Commission ratio.
      *
@@ -93,7 +92,10 @@ class CalculatorMod implements CalculatorModInterface
         foreach ($lines as $line) {
             $totalCommission += $line->porcomision * $line->pvptotal / 100.0;
         }
-        $doc->totalcomision = round($totalCommission, FS_NF0);
+
+        $decimals = Tools::settings('default', 'decimals', 2);
+        $doc->totalcomision = round($totalCommission, $decimals);
+
         return true;
     }
 
@@ -110,6 +112,7 @@ class CalculatorMod implements CalculatorModInterface
 
         // calculamos el porcentaje de comisión
         $line->porcomision = $line->suplido ? 0.0 : $this->getCommission($line);
+
         return true;
     }
 
@@ -201,7 +204,7 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
-    protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente)
+    protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente): void
     {
         $this->commissions = [];
         if (empty($codagente)) {
@@ -217,7 +220,7 @@ class CalculatorMod implements CalculatorModInterface
         }
     }
 
-    protected function loadPenalties(int $idempresa, ?string $codagente)
+    protected function loadPenalties(int $idempresa, ?string $codagente): void
     {
         $this->penalties = [];
         if (empty($this->commissions)) {

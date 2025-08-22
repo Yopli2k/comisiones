@@ -20,12 +20,12 @@
 namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
 use Closure;
-use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Agentes;
 use FacturaScripts\Core\DataSrc\Empresas;
 use FacturaScripts\Core\DataSrc\Series;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Tools;
+use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
 
@@ -120,18 +120,18 @@ class ListAgente
             $generated = 0;
             foreach (Agentes::all() as $agente) {
                 $where = [
-                    new DataBaseWhere('idliquidacion', null, 'IS'),
-                    new DataBaseWhere('idempresa', $idempresa),
-                    new DataBaseWhere('codserie', $codserie),
-                    new DataBaseWhere('codagente', $agente->codagente)
+                    Where::column('idliquidacion', null, 'IS'),
+                    Where::column('idempresa', $idempresa),
+                    Where::column('codserie', $codserie),
+                    Where::column('codagente', $agente->codagente)
                 ];
 
                 if (!empty($dateFrom)) {
-                    $where[] = new DataBaseWhere('fecha', $dateFrom, '>=');
+                    $where[] = Where::column('fecha', $dateFrom, '>=');
                 }
 
                 if (!empty($dateTo)) {
-                    $where[] = new DataBaseWhere('fecha', $dateTo, '<=');
+                    $where[] = Where::column('fecha', $dateTo, '<=');
                 }
 
                 $invoices = FacturaCliente::all($where, [], 0, 0);

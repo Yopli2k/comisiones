@@ -134,7 +134,7 @@ class ListAgente
                     $where[] = Where::column('fecha', $dateTo, '<=');
                 }
 
-                $invoices = FacturaCliente::all($where);
+                $invoices = FacturaCliente::all($where, [], 0, 0);
                 if (count($invoices)) {
                     $this->newSettlement($agente->codagente, $idempresa, $codserie, $invoices);
                     $generated++;

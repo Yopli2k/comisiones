@@ -211,8 +211,9 @@ class CalculatorMod implements CalculatorModInterface
             return;
         }
 
+        $commission = new Comision();
         $where = [Where::column('idempresa', $idempresa)];
-        foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
+        foreach ($commission->all($where, ['prioridad' => 'DESC'], 0, 0) as $comm) {
             if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
             }
@@ -226,6 +227,7 @@ class CalculatorMod implements CalculatorModInterface
             return;
         }
 
+        $model = new ComisionPenalizacion();
         $where = [
             Where::column('codagente', $codagente),
             Where::column('idempresa', $idempresa),
@@ -235,7 +237,7 @@ class CalculatorMod implements CalculatorModInterface
             'COALESCE(idempresa, 9999999)' => 'ASC',
             'dto_desde' => 'ASC'
         ];
-        foreach (ComisionPenalizacion::all($where, $order) as $penalty) {
+        foreach ($model->all($where, $order, 0, 0) as $penalty) {
             $this->penalties[] = $penalty;
         }
     }

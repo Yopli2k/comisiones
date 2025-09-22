@@ -218,8 +218,9 @@ class EditLiquidacionComision extends EditController
             return [];
         }
 
+        $invoice = new FacturaCliente();
         $where = [Where::column('idfactura', $selected, 'IN')];
-        return FacturaCliente::all($where, ['idfactura' => 'ASC']);
+        return $invoice->all($where, ['idfactura' => 'ASC'], 0, 0);
     }
 
     /**

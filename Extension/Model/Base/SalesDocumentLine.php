@@ -19,9 +19,6 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Extension\Model\Base;
 
-use FacturaScripts\Core\Tools;
-
-
 use Closure;
 
 class SalesDocumentLine

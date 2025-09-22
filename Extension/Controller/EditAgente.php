@@ -21,7 +21,8 @@ namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
 use Closure;
 use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
-use FacturaScripts\Core\DataSrc\Empresas;
+use FacturaScripts\Core\Tools;
+
 
 /**
  * Description of EditAgente
@@ -44,33 +45,36 @@ class EditAgente
     protected function createCommissionsView(): Closure
     {
         return function (string $viewName = 'ListComision') {
-            $this->addListView($viewName, 'Comision', 'commissions', 'fa-solid fa-percentage')
-                ->addOrderBy(['prioridad'], 'priority', 2)
-                ->addOrderBy(['porcentaje'], 'percentage')
-                ->disableColumn('agent', true);
+            $this->addListView($viewName, 'Comision', 'commissions', 'fa-solid fa-percentage');
+            $this->views[$viewName]->addOrderBy(['prioridad'], 'priority', 2);
+            $this->views[$viewName]->addOrderBy(['porcentaje'], 'percentage');
+
+            // disable columns
+            $this->views[$viewName]->disableColumn('agent', true);
         };
     }
 
     protected function createPenalizeView(): Closure
     {
         return function (string $viewName = 'EditComisionPenalizacion') {
-            $this->addEditListView($viewName, 'ComisionPenalizacion', 'penalize', 'fa-solid fa-minus-circle')
-                ->setInline(true);
+            $this->addEditListView($viewName, 'ComisionPenalizacion', 'penalize', 'fa-solid fa-minus-circle');
+            $this->views[$viewName]->setInline(true);
 
             // disable company column if there is only one company
-            if (count(Empresas::all()) < 2) {
-                $this->tab($viewName)->disableColumn('company');
+            $this->views[$this->getMainViewName()]->disableColumn('company');
+            if ($this->empresa->count() < 2) {
+                $this->views[$viewName]->disableColumn('company');
             }
-            $this->tab($viewName)->disableColumn('agent');
+            $this->views[$viewName]->disableColumn('agent');
         };
     }
 
     protected function createSettlementView(): Closure
     {
         return function (string $viewName = 'ListLiquidacionComision') {
-            $this->addListView($viewName, 'LiquidacionComision', 'settlements', 'fa-solid fa-chalkboard-teacher')
-                ->addOrderBy(['fecha'], 'date', 2)
-                ->addOrderBy(['total'], 'amount');
+            $this->addListView($viewName, 'LiquidacionComision', 'settlements', 'fa-solid fa-chalkboard-teacher');
+            $this->views[$viewName]->addOrderBy(['fecha'], 'date', 2);
+            $this->views[$viewName]->addOrderBy(['total'], 'amount');
         };
     }
 

@@ -31,7 +31,7 @@
                 </widget>
             </column>
             <column name="commission" order="120">
-                <widget type="number" decimal="2" min="0.01" max="999.99" step="0.01" fieldname="porcentaje" icon="fa-solid fa-percentage" required="true" />
+                <widget type="number" decimal="2" min="0.01" max="999.99" step="0.01" fieldname="porcentaje" icon="fas fa-percentage" required="true" />
             </column>
             <column name="priority" order="130">
                 <widget type="number" decimal="0" fieldname="prioridad" icon="fa-solid fa-sort-numeric-down-alt" required="true" />

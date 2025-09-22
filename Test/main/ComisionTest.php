@@ -35,7 +35,7 @@ final class ComisionTest extends TestCase
         self::setDefaultSettings();
     }
 
-    public function testCreateToAgent(): void
+    public function testCreateToAgent()
     {
         // creamos un agente
         $agent = new Agente();

@@ -19,8 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
-use FacturaScripts\Core\Template\ModelClass;
-use FacturaScripts\Core\Template\ModelTrait;
+use FacturaScripts\Core\Model\Base;
 use FacturaScripts\Dinamic\Model\Agente;
 
 /**
@@ -28,9 +27,10 @@ use FacturaScripts\Dinamic\Model\Agente;
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
-class ComisionPenalizacion extends ModelClass
+class ComisionPenalizacion extends Base\ModelClass
 {
-    use ModelTrait;
+
+    use Base\ModelTrait;
 
     /**
      * Primary key.
@@ -74,7 +74,7 @@ class ComisionPenalizacion extends ModelClass
      */
     public $penalizacion;
 
-    public function clear(): void
+    public function clear()
     {
         parent::clear();
         $this->dto_desde = 1.00;
@@ -85,8 +85,14 @@ class ComisionPenalizacion extends ModelClass
     public function install(): string
     {
         new Agente();
+        parent::install();
 
-        return parent::install();
+        return '';
+    }
+
+    public static function primaryColumn(): string
+    {
+        return 'id';
     }
 
     public static function tableName(): string
@@ -98,4 +104,5 @@ class ComisionPenalizacion extends ModelClass
     {
         return parent::url($type, $list);
     }
+
 }

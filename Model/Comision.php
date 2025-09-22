@@ -19,8 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
-use FacturaScripts\Core\Template\ModelClass;
-use FacturaScripts\Core\Template\ModelTrait;
+use FacturaScripts\Core\Model\Base;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente as DinAgente;
 use FacturaScripts\Dinamic\Model\Cliente as DinCliente;
@@ -31,9 +30,9 @@ use FacturaScripts\Dinamic\Model\Producto as DinProducto;
  *
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  */
-class Comision extends ModelClass
+class Comision extends Base\ModelClass
 {
-    use ModelTrait;
+    use Base\ModelTrait;
 
     /**
      * code of agent.
@@ -90,7 +89,7 @@ class Comision extends ModelClass
      */
     public $prioridad;
 
-    public function clear(): void
+    public function clear()
     {
         parent::clear();
         $this->porcentaje = 0.00;

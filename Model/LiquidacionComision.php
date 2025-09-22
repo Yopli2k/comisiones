@@ -20,8 +20,7 @@
 namespace FacturaScripts\Plugins\Comisiones\Model;
 
 use FacturaScripts\Core\Lib\Calculator;
-use FacturaScripts\Core\Template\ModelClass;
-use FacturaScripts\Core\Template\ModelTrait;
+use FacturaScripts\Core\Model\Base;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Agente;
 use FacturaScripts\Dinamic\Model\Almacen;
@@ -34,9 +33,9 @@ use FacturaScripts\Dinamic\Model\FacturaProveedor;
  * @author Jose Antonio Cuello Principal <yopli2000@gmail.com>
  * @author Carlos García Gómez           <carlos@facturascripts.com>
  */
-class LiquidacionComision extends ModelClass
+class LiquidacionComision extends Base\ModelClass
 {
-    use ModelTrait;
+    use Base\ModelTrait;
 
     /**
      * id of agent.
@@ -86,7 +85,7 @@ class LiquidacionComision extends ModelClass
      */
     public $total;
 
-    public function clear(): void
+    public function clear()
     {
         parent::clear();
         $this->fecha = Tools::date();
@@ -105,15 +104,15 @@ class LiquidacionComision extends ModelClass
             . ' SET total = COALESCE('
             . '(SELECT SUM(totalcomision)'
             . ' FROM ' . FacturaCliente::tableName()
-            . ' WHERE idliquidacion = ' . self::db()->var2str($code) . ')'
+            . ' WHERE idliquidacion = ' . self::$dataBase->var2str($code) . ')'
             . ',0)'
-            . ' WHERE idliquidacion = ' . self::db()->var2str($code);
+            . ' WHERE idliquidacion = ' . self::$dataBase->var2str($code);
 
-        return self::db()->exec($sql);
+        return self::$dataBase->exec($sql);
     }
 
     /**
-     * Generates a supplier invoice with this settlement.
+     * Generates an supplier invoice with this settlement.
      *
      * @return bool
      */
@@ -167,7 +166,7 @@ class LiquidacionComision extends ModelClass
     public function getAgent(): Agente
     {
         $agent = new Agente();
-        $agent->load($this->codagente);
+        $agent->loadFromCode($this->codagente);
         return $agent;
     }
 

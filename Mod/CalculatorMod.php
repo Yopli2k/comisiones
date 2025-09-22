@@ -19,17 +19,17 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
 use FacturaScripts\Core\Model\Base\SalesDocument;
 use FacturaScripts\Core\Model\Base\SalesDocumentLine;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\Comision;
 use FacturaScripts\Dinamic\Model\ComisionPenalizacion;
 use FacturaScripts\Dinamic\Model\Producto;
-use FacturaScripts\Dinamic\Model\LiquidacionComision;
+use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
 /**
  * Description of CalculatorMod
@@ -69,7 +69,7 @@ class CalculatorMod implements CalculatorModInterface
             // cargamos la liquidación del documento
             if (property_exists($doc, 'idliquidacion')) {
                 $this->settlement = new LiquidacionComision();
-                $this->settlement->load($doc->idliquidacion);
+                $this->settlement->loadFromCode($doc->idliquidacion);
             }
         }
         return true;
@@ -212,7 +212,7 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         $commission = new Comision();
-        $where = [Where::column('idempresa', $idempresa)];
+        $where = [new DataBaseWhere('idempresa', $idempresa)];
         foreach ($commission->all($where, ['prioridad' => 'DESC'], 0, 0) as $comm) {
             if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
@@ -229,9 +229,9 @@ class CalculatorMod implements CalculatorModInterface
 
         $model = new ComisionPenalizacion();
         $where = [
-            Where::column('codagente', $codagente),
-            Where::column('idempresa', $idempresa),
-            Where::column('idempresa', null, 'IS', 'OR')
+            new DataBaseWhere('codagente', $codagente),
+            new DataBaseWhere('idempresa', $idempresa),
+            new DataBaseWhere('idempresa', null, 'IS', 'OR')
         ];
         $order = [
             'COALESCE(idempresa, 9999999)' => 'ASC',

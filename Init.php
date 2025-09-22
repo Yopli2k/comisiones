@@ -23,6 +23,8 @@ use FacturaScripts\Core\Lib\AjaxForms\SalesFooterHTML;
 use FacturaScripts\Core\Lib\AjaxForms\SalesLineHTML;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Template\InitClass;
+use FacturaScripts\Core\Tools;
+
 use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
 /**

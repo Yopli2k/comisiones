@@ -20,11 +20,11 @@
 namespace FacturaScripts\Plugins\Comisiones\Controller;
 
 use Exception;
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 use FacturaScripts\Dinamic\Model\FacturaProveedor;
 use FacturaScripts\Dinamic\Model\Join\LiquidacionComisionFactura;
@@ -61,13 +61,13 @@ class EditLiquidacionComision extends EditController
     /**
      * Calculate the commission percentage for each of the selected invoices
      */
-    protected function calculateCommission(): bool
+    protected function calculateCommission()
     {
         $data = $this->request->request->all();
         $docs = $this->getInvoicesFromDataForm($data);
         if (empty($docs)) {
             Tools::log()->warning('no-selected-item');
-            return true;
+            return;
         }
 
         $this->dataBase->beginTransaction();
@@ -94,18 +94,15 @@ class EditLiquidacionComision extends EditController
             $this->dataBase->rollback();
             Tools::log()->error($exc->getMessage());
         }
-
-        return true;
     }
 
     /**
      * Calculate the total commission amount for the settlement
      */
-    protected function calculateTotalCommission(): bool
+    protected function calculateTotalCommission()
     {
         $code = $this->request->query->get('code');
         $this->getModel()->calculateTotalCommission($code);
-        return true;
     }
 
     /**
@@ -113,7 +110,7 @@ class EditLiquidacionComision extends EditController
      *
      * @param string $viewName
      */
-    protected function createSettledInvoiceView(string $viewName = self::VIEWNAME_SETTLEDINVOICE): void
+    protected function createSettledInvoiceView(string $viewName = self::VIEWNAME_SETTLEDINVOICE)
     {
         $this->addListView($viewName, 'Join\LiquidacionComisionFactura', 'invoices', 'fa-solid fa-file-invoice');
         $this->views[$viewName]->addOrderBy(['fecha', 'idfactura'], 'date', 2);
@@ -147,9 +144,10 @@ class EditLiquidacionComision extends EditController
      */
     protected function execAfterAction($action)
     {
-        if ($action == 'generateinvoice') {
-            $this->generateInvoice();
-            return;
+        switch ($action) {
+            case 'generateinvoice':
+                $this->generateInvoice();
+                return;
         }
 
         parent::execAfterAction($action);
@@ -166,14 +164,17 @@ class EditLiquidacionComision extends EditController
     {
         switch ($action) {
             case 'calculatecommission':
-                return $this->calculateCommission();
+                $this->calculateCommission();
+                return true;
 
             case 'delete':
                 parent::execPreviousAction($action);
-                return $this->calculateTotalCommission();
+                $this->calculateTotalCommission();
+                return true;
 
             case 'insertinvoices':
-                return $this->insertInvoices();
+                $this->insertInvoices();
+                return true;
         }
 
         return parent::execPreviousAction($action);
@@ -189,7 +190,7 @@ class EditLiquidacionComision extends EditController
 
             // redireccionamos a la factura
             $invoice = new FacturaProveedor();
-            if ($invoice->load($this->views[$this->getMainViewName()]->model->idfactura)) {
+            if ($invoice->loadFromCode($this->views[$this->getMainViewName()]->model->idfactura)) {
                 $this->redirect($invoice->url() . '&action=save-ok');
             }
 
@@ -219,7 +220,7 @@ class EditLiquidacionComision extends EditController
         }
 
         $invoice = new FacturaCliente();
-        $where = [Where::column('idfactura', $selected, 'IN')];
+        $where = [new DataBaseWhere('idfactura', $selected, 'IN')];
         return $invoice->all($where, ['idfactura' => 'ASC'], 0, 0);
     }
 
@@ -228,44 +229,44 @@ class EditLiquidacionComision extends EditController
      *
      * @param array $data
      *
-     * @return array[]
+     * @return DataBaseWhere[]
      */
     protected function getInvoicesWhere(array $data): array
     {
         // Basic data filter
         $where = [
-            Where::column('facturascli.idempresa', $data['idempresa']),
-            Where::column('facturascli.codserie', $data['codserie']),
-            Where::column('facturascli.codagente', $data['codagente'])
+            new DataBaseWhere('facturascli.idempresa', $data['idempresa']),
+            new DataBaseWhere('facturascli.codserie', $data['codserie']),
+            new DataBaseWhere('facturascli.codagente', $data['codagente'])
         ];
 
         // Date filter
         if (!empty($data['datefrom'])) {
-            $where[] = Where::column('facturascli.fecha', $data['datefrom'], '>=');
+            $where[] = new DataBaseWhere('facturascli.fecha', $data['datefrom'], '>=');
         }
         if (!empty($data['dateto'])) {
-            $where[] = Where::column('facturascli.fecha', $data['dateto'], '<=');
+            $where[] = new DataBaseWhere('facturascli.fecha', $data['dateto'], '<=');
         }
 
         // Status payment filter
         if ($data['status'] == self::INSERT_STATUS_CHARGED) {
-            $where[] = Where::column('facturascli.pagada', true);
+            $where[] = new DataBaseWhere('facturascli.pagada', true);
         }
 
         // Payment source filter
         switch ($data['domiciled']) {
             case self::INSERT_DOMICILED_DOMICILED:
-                $where[] = Where::column('formaspago.domiciliado', true);
+                $where[] = new DataBaseWhere('formaspago.domiciliado', true);
                 break;
 
             case self::INSERT_DOMICILED_WITHOUT:
-                $where[] = Where::column('formaspago.domiciliado', false);
+                $where[] = new DataBaseWhere('formaspago.domiciliado', false);
                 break;
         }
 
         // Customer filter
         if (!empty($data['codcliente'])) {
-            $where[] = Where::column('facturascli.codcliente', $data['codcliente']);
+            $where[] = new DataBaseWhere('facturascli.codcliente', $data['codcliente']);
         }
 
         // Return completed filter
@@ -275,7 +276,7 @@ class EditLiquidacionComision extends EditController
     /**
      * Insert Invoices in the settled
      */
-    protected function insertInvoices(): bool
+    protected function insertInvoices()
     {
         $data = $this->request->request->all();
 
@@ -285,7 +286,7 @@ class EditLiquidacionComision extends EditController
         $settleinvoice->addInvoiceToSettle($data['idliquidacion'], $where);
 
         // update total to settlement commission
-        return $this->calculateTotalCommission();
+        $this->calculateTotalCommission();
     }
 
     /**
@@ -313,7 +314,7 @@ class EditLiquidacionComision extends EditController
      *
      * @param BaseView $view
      */
-    protected function loadDataSettledInvoice($view): void
+    protected function loadDataSettledInvoice($view)
     {
         // Get master data
         $mainViewName = $this->getMainViewName();
@@ -329,7 +330,7 @@ class EditLiquidacionComision extends EditController
         $view->model->idliquidacion = $idsettled;
 
         // Load view data
-        $where = [Where::column('facturascli.idliquidacion', $idsettled)];
+        $where = [new DataBaseWhere('facturascli.idliquidacion', $idsettled)];
         $view->loadData('', $where);
     }
 
@@ -340,7 +341,7 @@ class EditLiquidacionComision extends EditController
      * @param string $viewName
      * @param BaseView $view
      */
-    protected function setViewStatus(string $viewName, BaseView $view): void
+    protected function setViewStatus($viewName, $view)
     {
         if ($view->count === 0) {
             $this->setSettings($viewName, 'btnDelete', false);

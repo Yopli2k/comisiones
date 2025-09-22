@@ -20,8 +20,8 @@
 namespace FacturaScripts\Plugins\Comisiones\Extension\Controller;
 
 use Closure;
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\DataSrc\Empresas;
-use FacturaScripts\Core\Where;
 
 /**
  * Description of EditAgente
@@ -81,13 +81,13 @@ class EditAgente
                 case 'ListComision':
                 case 'ListLiquidacionComision':
                     $codagente = $this->getViewModelValue('EditAgente', 'codagente');
-                    $where = [Where::column('codagente', $codagente)];
+                    $where = [new DataBaseWhere('codagente', $codagente)];
                     $view->loadData('', $where);
                     break;
 
                 case 'EditComisionPenalizacion':
                     $codagente = $this->getViewModelValue('EditAgente', 'codagente');
-                    $where = [Where::column('codagente', $codagente)];
+                    $where = [new DataBaseWhere('codagente', $codagente)];
                     $order = ['COALESCE(idempresa, 9999999)' => 'ASC', 'dto_desde' => 'ASC'];
                     $view->loadData('', $where, $order);
                     break;

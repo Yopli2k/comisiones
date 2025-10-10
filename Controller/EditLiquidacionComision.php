@@ -20,6 +20,7 @@
 namespace FacturaScripts\Plugins\Comisiones\Controller;
 
 use Exception;
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Lib\ExtendedController\BaseView;
 use FacturaScripts\Core\Lib\ExtendedController\EditController;
@@ -115,13 +116,11 @@ class EditLiquidacionComision extends EditController
      */
     protected function createSettledInvoiceView(string $viewName = self::VIEWNAME_SETTLEDINVOICE): void
     {
-        $this->addListView($viewName, 'Join\LiquidacionComisionFactura', 'invoices', 'fa-solid fa-file-invoice');
-        $this->views[$viewName]->addOrderBy(['fecha', 'idfactura'], 'date', 2);
-        $this->views[$viewName]->addOrderBy(['total'], 'amount');
-        $this->views[$viewName]->addOrderBy(['totalcomision'], 'commission');
-
-        // settings
-        $this->setSettings($viewName, 'modalInsert', 'insertinvoices');
+        $this->addListView($viewName, 'Join\LiquidacionComisionFactura', 'invoices', 'fa-solid fa-file-invoice')
+            ->setSettings('modalInsert', 'insertinvoices')
+            ->addOrderBy(['fecha', 'idfactura'], 'date', 2)
+            ->addOrderBy(['total'], 'amount')
+            ->addOrderBy(['totalcomision'], 'commission');
     }
 
     /**
@@ -292,6 +291,7 @@ class EditLiquidacionComision extends EditController
      *
      * @param string $viewName
      * @param BaseView $view
+     * @throws Exception
      */
     protected function loadData($viewName, $view)
     {
@@ -315,21 +315,21 @@ class EditLiquidacionComision extends EditController
     protected function loadDataSettledInvoice($view): void
     {
         // Get master data
-        $mainViewName = $this->getMainViewName();
-        $idsettled = $this->getViewModelValue($mainViewName, 'idliquidacion');
+        $idsettled = $this->getModel()->idliquidacion;
         if (empty($idsettled)) {
             return;
         }
 
         // Set master values to insert modal view
-        $view->model->codagente = $this->getViewModelValue($mainViewName, 'codagente');
-        $view->model->codserie = $this->getViewModelValue($mainViewName, 'codserie');
-        $view->model->idempresa = $this->getViewModelValue($mainViewName, 'idempresa');
+        $view->model->codagente = $this->getModel()->codagente;
+        $view->model->codserie = $this->getModel()->codserie;
+        $view->model->idempresa = $this->getModel()->idempresa;
         $view->model->idliquidacion = $idsettled;
 
         // Load view data
-        $where = [Where::column('facturascli.idliquidacion', $idsettled)];
-        $view->loadData('', $where);
+        $view->loadData('', [
+            new DataBaseWhere('facturascli.idliquidacion', $idsettled),
+        ]);
     }
 
     /**
@@ -338,6 +338,7 @@ class EditLiquidacionComision extends EditController
      *
      * @param string $viewName
      * @param BaseView $view
+     * @throws Exception
      */
     protected function setViewStatus(string $viewName, BaseView $view): void
     {
@@ -346,18 +347,13 @@ class EditLiquidacionComision extends EditController
             return;
         }
 
-        // disable some fields in the main view
+        $canInvoice = empty($this->getModel()->idfactura);
         $mainViewName = $this->getMainViewName();
-        $this->views[$mainViewName]->disableColumn('company', false, 'true');
-        $this->views[$mainViewName]->disableColumn('serie', false, 'true');
-        $this->views[$mainViewName]->disableColumn('agent', false, 'true');
-
-        // Is there an invoice created?
-        $canInvoice = empty($this->getViewModelValue($mainViewName, 'idfactura'));
-
-        // Update insert/delete buttons status
-        $this->setSettings($viewName, 'btnNew', $canInvoice);
-        $this->setSettings($viewName, 'btnDelete', $canInvoice);
+        $this->views[$mainViewName]->disableColumn('company', false, 'true')
+            ->setSettings('btnNew', $canInvoice)
+            ->setSettings('btnDelete', $canInvoice)
+            ->disableColumn('serie', false, 'true')
+            ->disableColumn('agent', false, 'true');
 
         if ($canInvoice) {
             $this->addButton($viewName, [

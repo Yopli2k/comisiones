@@ -23,6 +23,7 @@ use FacturaScripts\Core\Lib\AjaxForms\SalesFooterHTML;
 use FacturaScripts\Core\Lib\AjaxForms\SalesLineHTML;
 use FacturaScripts\Core\Lib\Calculator;
 use FacturaScripts\Core\Template\InitClass;
+use FacturaScripts\Dinamic\Model\Cliente;
 use FacturaScripts\Plugins\Comisiones\Model\LiquidacionComision;
 
 /**
@@ -50,6 +51,7 @@ final class Init extends InitClass
 
     public function update(): void
     {
+        new Cliente();
         new LiquidacionComision();
     }
 }

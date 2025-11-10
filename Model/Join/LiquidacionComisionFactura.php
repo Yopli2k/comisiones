@@ -20,9 +20,10 @@
 namespace FacturaScripts\Plugins\Comisiones\Model\Join;
 
 use Exception;
+use FacturaScripts\Core\Base\DataBase\DataBaseWhere;
+use FacturaScripts\Core\KernelException;
 use FacturaScripts\Core\Model\Base\JoinModel;
 use FacturaScripts\Core\Tools;
-use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\FacturaCliente;
 
 /**
@@ -35,6 +36,12 @@ use FacturaScripts\Dinamic\Model\FacturaCliente;
  */
 class LiquidacionComisionFactura extends JoinModel
 {
+    /**
+     * Class constructor.
+     * Sets the master model to FacturaCliente.
+     *
+     * @param array $data
+     */
     public function __construct(array $data = [])
     {
         parent::__construct($data);
@@ -46,11 +53,12 @@ class LiquidacionComisionFactura extends JoinModel
      * according to the where filter.
      *
      * @param int $settled
-     * @param array[] $where
+     * @param DataBaseWhere[] $where
+     * @throws KernelException
      */
-    public function addInvoiceToSettle($settled, $where): void
+    public function addInvoiceToSettle(int $settled, array $where): void
     {
-        $where[] = Where::column('facturascli.idliquidacion', null, 'IS');
+        $where[] = new DataBaseWhere('facturascli.idliquidacion', null, 'IS');
         $invoices = $this->all($where);
         if (empty($invoices)) {
             return;
@@ -74,6 +82,11 @@ class LiquidacionComisionFactura extends JoinModel
         }
     }
 
+    /**
+     * Remove the invoice from the settlement.
+     *
+     * @throws KernelException
+     */
     public function delete(): bool
     {
         $sql = 'UPDATE ' . FacturaCliente::tableName() . ' SET idliquidacion = NULL'
@@ -86,7 +99,7 @@ class LiquidacionComisionFactura extends JoinModel
      *
      * @return int
      */
-    public function primaryColumnValue()
+    public function primaryColumnValue(): int
     {
         return $this->idfactura;
     }

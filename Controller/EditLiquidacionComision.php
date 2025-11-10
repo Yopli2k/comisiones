@@ -208,7 +208,7 @@ class EditLiquidacionComision extends EditController
      */
     protected function getInvoicesFromDataForm(array $data): array
     {
-        if (!isset($data['code'])) {
+        if (false === isset($data['code'])) {
             return [];
         }
 
@@ -226,44 +226,44 @@ class EditLiquidacionComision extends EditController
      *
      * @param array $data
      *
-     * @return array[]
+     * @return DataBaseWhere[]
      */
     protected function getInvoicesWhere(array $data): array
     {
         // Basic data filter
         $where = [
-            Where::column('facturascli.idempresa', $data['idempresa']),
-            Where::column('facturascli.codserie', $data['codserie']),
-            Where::column('facturascli.codagente', $data['codagente'])
+            new DataBaseWhere('facturascli.idempresa', $data['idempresa']),
+            new DataBaseWhere('facturascli.codserie', $data['codserie']),
+            new DataBaseWhere('facturascli.codagente', $data['codagente']),
         ];
 
         // Date filter
-        if (!empty($data['datefrom'])) {
-            $where[] = Where::column('facturascli.fecha', $data['datefrom'], '>=');
+        if (false === empty($data['datefrom'])) {
+            $where[] = new DataBaseWhere('facturascli.fecha', $data['datefrom'], '>=');
         }
-        if (!empty($data['dateto'])) {
-            $where[] = Where::column('facturascli.fecha', $data['dateto'], '<=');
+        if (false === empty($data['dateto'])) {
+            $where[] = new DataBaseWhere('facturascli.fecha', $data['dateto'], '<=');
         }
 
         // Status payment filter
-        if ($data['status'] == self::INSERT_STATUS_CHARGED) {
-            $where[] = Where::column('facturascli.pagada', true);
+        if ($data['status'] === self::INSERT_STATUS_CHARGED) {
+            $where[] = new DataBaseWhere('facturascli.pagada', true);
         }
 
         // Payment source filter
         switch ($data['domiciled']) {
             case self::INSERT_DOMICILED_DOMICILED:
-                $where[] = Where::column('formaspago.domiciliado', true);
+                $where[] = new DataBaseWhere('formaspago.domiciliado', true);
                 break;
 
             case self::INSERT_DOMICILED_WITHOUT:
-                $where[] = Where::column('formaspago.domiciliado', false);
+                $where[] = new DataBaseWhere('formaspago.domiciliado', false);
                 break;
         }
 
         // Customer filter
-        if (!empty($data['codcliente'])) {
-            $where[] = Where::column('facturascli.codcliente', $data['codcliente']);
+        if (false === empty($data['codcliente'])) {
+            $where[] = new DataBaseWhere('facturascli.codcliente', $data['codcliente']);
         }
 
         // Return completed filter
@@ -278,9 +278,11 @@ class EditLiquidacionComision extends EditController
         $data = $this->request->request->all();
 
         // add new invoice to settlement commission
-        $where = $this->getInvoicesWhere($data);
-        $settleinvoice = new LiquidacionComisionFactura();
-        $settleinvoice->addInvoiceToSettle($data['idliquidacion'], $where);
+        $settleInvoice = new LiquidacionComisionFactura();
+        $settleInvoice->addInvoiceToSettle(
+            $data['idliquidacion'],
+            $this->getInvoicesWhere($data)
+        );
 
         // update total to settlement commission
         return $this->calculateTotalCommission();

@@ -183,12 +183,13 @@ class EditLiquidacionComision extends EditController
      */
     protected function generateInvoice(): bool
     {
-        if ($this->views[$this->getMainViewName()]->model->generateInvoice()) {
+        $model = $this->getModel();
+        if ($model->generateInvoice()) {
             Tools::log()->notice('record-updated-correctly');
 
             // redireccionamos a la factura
             $invoice = new FacturaProveedor();
-            if ($invoice->load($this->views[$this->getMainViewName()]->model->idfactura)) {
+            if ($invoice->load($model->idfactura)) {
                 $this->redirect($invoice->url() . '&action=save-ok');
             }
 

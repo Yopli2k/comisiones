@@ -63,7 +63,7 @@ class SalesFooterHTMLMod implements SalesModInterface
 
     private function totalcomision(SalesDocument $model): string
     {
-        if (false === property_exists($model, 'totalcomision')) {
+        if (false === $model->hasColumn('totalcomision')) {
             return '';
         }
 

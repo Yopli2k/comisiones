@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Comisiones plugin for FacturaScripts.
- * Copyright (C) 2024 Carlos Garcia Gomez <carlos@facturascripts.com>
+ * Copyright (C) 2024-2025 Carlos Garcia Gomez <carlos@facturascripts.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -32,19 +32,21 @@ final class ModTest extends TestCase
 {
     use LogErrorsTrait;
 
-    public function testCalculatorMod()
+    public function testCalculatorMod(): void
     {
-        new CalculatorMod();
+        $mod = new CalculatorMod();
     }
 
-    public function testSalesFooterHTMLMod()
+    public function testSalesFooterHTMLMod(): void
     {
-        new SalesFooterHTMLMod();
+        $mod = new SalesFooterHTMLMod();
+        $this->assertNotEmpty($mod->newModalFields());
     }
 
-    public function testSalesLineHTMLMod()
+    public function testSalesLineHTMLMod(): void
     {
-        new SalesLineHTMLMod();
+        $mod = new SalesLineHTMLMod();
+        $this->assertNotEmpty($mod->newModalFields());
     }
 
     protected function tearDown(): void

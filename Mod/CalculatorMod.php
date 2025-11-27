@@ -28,8 +28,8 @@ use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\Comision;
 use FacturaScripts\Dinamic\Model\ComisionPenalizacion;
-use FacturaScripts\Dinamic\Model\Producto;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
+use FacturaScripts\Dinamic\Model\Producto;
 
 /**
  * Description of CalculatorMod
@@ -67,7 +67,7 @@ class CalculatorMod implements CalculatorModInterface
             $this->loadCommissions($doc->idempresa, $doc->codagente, $doc->codcliente);
             $this->loadPenalties($doc->idempresa, $doc->codagente);
             // cargamos la liquidación del documento
-            if (property_exists($doc, 'idliquidacion')) {
+            if ($doc->hasColumn('idliquidacion')) {
                 $this->settlement = new LiquidacionComision();
                 $this->settlement->load($doc->idliquidacion);
             }
@@ -77,7 +77,7 @@ class CalculatorMod implements CalculatorModInterface
 
     public function calculate(BusinessDocument &$doc, array &$lines): bool
     {
-        if (false === property_exists($doc, 'totalcomision')) {
+        if (false === $doc->hasColumn('totalcomision')) {
             // si no existe el campo totalcomision, no se calcula nada
             return true;
         }
@@ -101,7 +101,7 @@ class CalculatorMod implements CalculatorModInterface
 
     public function calculateLine(BusinessDocument $doc, BusinessDocumentLine &$line): bool
     {
-        if (false === property_exists($line, 'porcomision')) {
+        if (false === $line->hasColumn('porcomision')) {
             // si no hay porcomision, no hay comisiones
             return true;
         }
@@ -118,7 +118,7 @@ class CalculatorMod implements CalculatorModInterface
 
     public function clear(BusinessDocument &$doc, array &$lines): bool
     {
-        if (false === property_exists($doc, 'totalcomision')) {
+        if (false === $doc->hasColumn('totalcomision')) {
             // si no hay totalcomision, no hay nada que limpiar
             return true;
         }
@@ -211,7 +211,7 @@ class CalculatorMod implements CalculatorModInterface
             return;
         }
 
-        $where = [Where::column('idempresa', $idempresa)];
+        $where = [Where::eq('idempresa', $idempresa)];
         foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
             if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
@@ -227,9 +227,11 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         $where = [
-            Where::column('codagente', $codagente),
-            Where::column('idempresa', $idempresa),
-            Where::column('idempresa', null, 'IS', 'OR')
+            Where::eq('codagente', $codagente),
+            Where::sub([
+                Where::eq('idempresa', $idempresa),
+                Where::orIsNull('idempresa')
+            ])
         ];
         $order = [
             'COALESCE(idempresa, 9999999)' => 'ASC',
@@ -242,7 +244,7 @@ class CalculatorMod implements CalculatorModInterface
 
     private function isInvoiced(BusinessDocument &$doc): bool
     {
-        return property_exists($doc, 'idliquidacion')
+        return $doc->hasColumn('idliquidacion')
             && isset($this->settlement)
             && !empty($this->settlement->idfactura);
     }

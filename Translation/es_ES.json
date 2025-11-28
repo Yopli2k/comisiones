@@ -11,5 +11,9 @@
     "penalty-help-title": "Penalización por hacer descuentos",
     "penalty-penalty-info": "Porcentaje que se resta al porcentaje de comisión sobre la venta. (Introducir un valor positivo)",
     "until-dto": "Hasta descuento",
-    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango"
+    "until-penalty-info": "Fin del rango del descuento al que se aplica la penalización. '100' indica máximo del rango",
+    "NEW": "----------",
+     "show-into-modal": "Mostrar en ventana auxiliar",
+     "show-into-footer": "Mostrar en pie de documento",
+     "total-position": "Posición del Total"
 }

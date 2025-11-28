@@ -44,12 +44,16 @@ class SalesFooterHTMLMod implements SalesModInterface
 
     public function newFields(): array
     {
-        return [];
+        return Tools::settings('default', 'comissionposition', 'modal') === 'footer'
+            ? ['totalcomision']
+            : [];
     }
 
     public function newModalFields(): array
     {
-        return ['totalcomision'];
+        return Tools::settings('default', 'comissionposition', 'modal') === 'modal'
+            ? ['totalcomision']
+            : [];
     }
 
     public function renderField(SalesDocument $model, string $field): ?string
@@ -67,13 +71,13 @@ class SalesFooterHTMLMod implements SalesModInterface
             return '';
         }
 
-        return '<div class="col-sm-3">'
+        return '<div class="col-sm-6 col-md-4 col-lg">'
             . '<div class="mb-3">'
             . Tools::trans('commission')
-            . '<input type="text" name="totalcomision" class="form-control text-end" disabled'
-            . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
+            . '<input type="text" name="totalcomision" class="form-control" disabled'
+                . ' value="' . Tools::money($model->totalcomision, $model->coddivisa, 2) . '"'
             . '/>'
             . '</div>'
-            . '</div>';
+        . '</div>';
     }
 }

@@ -21,11 +21,13 @@
 -->
 <view>
     <columns>
-        <column name="commission" display="none" order="351">
-            <widget type="money" fieldname="totalcomision"/>
-        </column>
-        <column name="settlement" display="none" order="352">
-            <widget type="text" fieldname="idliquidacion" onclick="EditLiquidacionComision"/>
-        </column>
+        <group name="commissions" title="commissions" icon="fa-solid fa-percentage" valign="bottom" numcolumns="12">
+            <column name="comission-position" title="total-position" numcolumns="3" order="110">
+                <widget type="select" fieldname="comissionposition" required="true" translate="true">
+                    <values title="show-into-modal">modal</values>
+                    <values title="show-into-footer">footer</values>
+                </widget>
+            </column>
+        </group>
     </columns>
 </view>

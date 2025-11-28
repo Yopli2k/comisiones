@@ -67,7 +67,7 @@ class CalculatorMod implements CalculatorModInterface
             $this->loadCommissions($doc->idempresa, $doc->codagente, $doc->codcliente);
             $this->loadPenalties($doc->idempresa, $doc->codagente);
             // cargamos la liquidación del documento
-            if (property_exists($doc, 'idliquidacion')) {
+            if ($doc->hasColumn('idliquidacion')) {
                 $this->settlement = new LiquidacionComision();
                 $this->settlement->load($doc->idliquidacion);
             }
@@ -77,7 +77,7 @@ class CalculatorMod implements CalculatorModInterface
 
     public function calculate(BusinessDocument &$doc, array &$lines): bool
     {
-        if (false === property_exists($doc, 'totalcomision')) {
+        if (false === $doc->hasColumn('totalcomision')) {
             // si no existe el campo totalcomision, no se calcula nada
             return true;
         }
@@ -101,7 +101,7 @@ class CalculatorMod implements CalculatorModInterface
 
     public function calculateLine(BusinessDocument $doc, BusinessDocumentLine &$line): bool
     {
-        if (false === property_exists($line, 'porcomision')) {
+        if (false === $line->hasColumn('porcomision')) {
             // si no hay porcomision, no hay comisiones
             return true;
         }
@@ -118,7 +118,7 @@ class CalculatorMod implements CalculatorModInterface
 
     public function clear(BusinessDocument &$doc, array &$lines): bool
     {
-        if (false === property_exists($doc, 'totalcomision')) {
+        if (false === $doc->hasColumn('totalcomision')) {
             // si no hay totalcomision, no hay nada que limpiar
             return true;
         }
@@ -176,13 +176,13 @@ class CalculatorMod implements CalculatorModInterface
 
     protected function isValidCommissionForDoc(Comision $commission, string $codagente, string $codcliente): bool
     {
-        // comprobamos el agente
-        if (!empty($commission->codagente) && $commission->codagente != $codagente) {
+        // comprobamos el agente si la comision tiene uno asignado
+        if (false === empty($commission->codagente) && $commission->codagente != $codagente) {
             return false;
         }
 
-        // comprobamos el cliente
-        if (!empty($commission->codcliente) && $commission->codcliente != $codcliente) {
+        // comprobamos el cliente si la comision tiene uno asignado
+        if (false === empty($commission->codcliente) && $commission->codcliente != $codcliente) {
             return false;
         }
 
@@ -211,7 +211,11 @@ class CalculatorMod implements CalculatorModInterface
             return;
         }
 
-        $where = [Where::column('idempresa', $idempresa)];
+        $where = [
+            Where::column('idempresa', $idempresa),
+            Where::column('codagente', $codagente),
+            Where::column('codagente', null, 'IS', 'OR'),
+        ];
         foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
             if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
                 $this->commissions[] = $comm;
@@ -228,11 +232,13 @@ class CalculatorMod implements CalculatorModInterface
 
         $where = [
             Where::column('codagente', $codagente),
+            Where::column('codagente', null, 'IS', 'OR'),
             Where::column('idempresa', $idempresa),
-            Where::column('idempresa', null, 'IS', 'OR')
+            Where::column('idempresa', null, 'IS', 'OR'),
         ];
         $order = [
             'COALESCE(idempresa, 9999999)' => 'ASC',
+            'COALESCE(codagente, \'zzzzzz\')' => 'ASC',
             'dto_desde' => 'ASC'
         ];
         foreach (ComisionPenalizacion::all($where, $order) as $penalty) {
@@ -242,7 +248,7 @@ class CalculatorMod implements CalculatorModInterface
 
     private function isInvoiced(BusinessDocument &$doc): bool
     {
-        return property_exists($doc, 'idliquidacion')
+        return $doc->hasColumn('idliquidacion')
             && isset($this->settlement)
             && !empty($this->settlement->idfactura);
     }

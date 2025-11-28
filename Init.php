@@ -22,6 +22,7 @@ namespace FacturaScripts\Plugins\Comisiones;
 use FacturaScripts\Core\Lib\AjaxForms\SalesFooterHTML;
 use FacturaScripts\Core\Lib\AjaxForms\SalesLineHTML;
 use FacturaScripts\Core\Lib\Calculator;
+use FacturaScripts\Core\Model\Base\TransformerDocument;
 use FacturaScripts\Core\Template\InitClass;
 use FacturaScripts\Core\Tools;
 use FacturaScripts\Dinamic\Model\Cliente;
@@ -44,6 +45,8 @@ final class Init extends InitClass
         Calculator::addMod(new Mod\CalculatorMod());
         SalesFooterHTML::addMod(new Mod\SalesFooterHTMLMod());
         SalesLineHTML::addMod(new Mod\SalesLineHTMLMod());
+
+        TransformerDocument::addUnlockedField('totalcomision');
     }
 
     public function uninstall(): void

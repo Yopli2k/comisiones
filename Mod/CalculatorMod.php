@@ -29,8 +29,8 @@ use FacturaScripts\Core\Tools;
 use FacturaScripts\Core\Where;
 use FacturaScripts\Dinamic\Model\Comision;
 use FacturaScripts\Dinamic\Model\ComisionPenalizacion;
-use FacturaScripts\Dinamic\Model\Producto;
 use FacturaScripts\Dinamic\Model\LiquidacionComision;
+use FacturaScripts\Dinamic\Model\Producto;
 
 /**
  * Description of CalculatorMod

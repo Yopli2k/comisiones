@@ -10,6 +10,9 @@
     "penalty-help-info": "Se un axente fai un desconto ao realizar unha venda, é posible penalizar a comisión que percibirá pola venda. A través desta relación de porcentaxes, <b>a penalización réstase<\/b> da comisión en función dende\/ata onde se atope aplicado o desconto polo vendedor na venda.<br><br><b>Por exemplo:<\/b><br>Se temos un rexistro que establece un <i>Dende<\/i> 1 e un <i>Ata<\/i> 20, se o axente fai un desconto ao cliente do 15 % pois restarase da comisión o valor que introducimos en <i>Penalización<\/i>",
     "penalty-help-title": "Penalización por facer descontos",
     "penalty-penalty-info": "Porcentaxe que se resta da porcentaxe da comisión sobre a venda. (Introducir un valor positivo)",
+    "show-into-footer": "Mostrar en pie de documento",
+    "show-into-modal": "Mostrar en ventana auxiliar",
+    "total-position": "Posición del Total",
     "until-dto": "Ata desconto",
     "until-penalty-info": "Fin do rango do desconto ao que se aplica a penalización. '100' indica o rango máximo"
 }

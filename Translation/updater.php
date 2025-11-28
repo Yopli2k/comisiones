@@ -18,6 +18,7 @@ foreach (scandir(__DIR__, SCANDIR_SORT_ASCENDING) as $filename) {
 
 // download json from facturascripts.com
 foreach ($files as $filename) {
+    sleep(1);
     $url = "https://facturascripts.com/EditLanguage?action=json&idproject=191&code=" . substr($filename, 0, -5);
     $newContent = file_get_contents($url);
     if (empty($newContent)) {

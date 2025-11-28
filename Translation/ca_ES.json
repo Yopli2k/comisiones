@@ -10,6 +10,9 @@
     "penalty-help-info": "Si en fer una venda un agent fa un descompte és possible penalitzar la comissió que rebrà per la venda. Mitjançant aquesta relació de percentatges, <b>es resta<\/b> de la comissió <b>la penalització<\/b> segons el des de\/fins on es trobi el descompte aplicat pel comercial a la venda.<br><br> ><b>Per exemple:<\/b><br>Si tenim un registre que estableix un <i>Des de<\/i> 1 i un <i>Fins<\/i> 20, si l'agent fa un descompte al client d'un 15% ja que se li restarà de la comissió el valor que introduïm a <i>Penalització<\/i>",
     "penalty-help-title": "Penalització per fer descomptes",
     "penalty-penalty-info": "Percentatge que resta al percentatge de comissió sobre la venda. (Introduir un valor positiu)",
+    "show-into-footer": "Mostrar en peu de document",
+    "show-into-modal": "Mostrar en finestra auxiliar",
+    "total-position": "Posició del Total",
     "until-dto": "Fins a descompte",
     "until-penalty-info": "Fi del rang del descompte a què s'aplica la penalització. '100' indica màxim del rang"
 }

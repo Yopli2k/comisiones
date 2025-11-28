@@ -10,6 +10,9 @@
     "penalty-help-info": "Wenn ein Agent beim Verkauf einen Rabatt gewährt, kann die Provision, die er für den Verkauf erhält, bestraft werden. Durch diese Prozentsatzbeziehung wird <b>von der Provision<\/b> <b>die Strafe<\/b> abgezogen, je nachdem, wo sich der Rabatt befindet, den der Verkaufsträger im Verkauf gewährt hat.<br><br><b>Zum Beispiel:<\/b><br>Wenn wir einen Datensatz haben, der einen <i>Von<\/i> 1 und einen <i>Bis<\/i> 20 festlegt, wird dem Agenten 15 % Rabatt vom Kunden von der Provision der Wert abgezogen, den wir in <i>Strafe<\/i> eingeben.",
     "penalty-help-title": "Strafe für Rabatte",
     "penalty-penalty-info": "Prozentsatz, der vom Verkaufsprovisionssatz abgezogen wird. (Positiven Wert eingeben)",
+    "show-into-footer": "Mostrar en pie de documento",
+    "show-into-modal": "Mostrar en ventana auxiliar",
+    "total-position": "Posición del Total",
     "until-dto": "Bis Rabatt",
     "until-penalty-info": "Ende des Rabattranges, auf den die Strafe angewendet wird. '100' zeigt das Maximum des Bereichs an"
 }

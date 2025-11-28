@@ -10,6 +10,9 @@
     "penalty-help-info": "Jeśli podczas sprzedaży agent udziela rabatu, możliwe jest nałożenie kary na prowizję otrzymywaną za sprzedaż. Przez ten stosunek procentowy, <b>od prowizji odejmowana<\/b> jest <b>kara<\/b> w zależności od zakresu, w którym zastosowany jest rabat przez handlowca podczas sprzedaży.<br><br><b>Na przykład:<\/b><br>Jeśli mamy wpis, który ustala <i>Od<\/i> 1, a <i>Do<\/i> 20, jeśli agent udziela klientowi rabatu w wysokości 15%, to od prowizji zostanie odjęta wartość wprowadzona w <i>Kara<\/i>",
     "penalty-help-title": "Kara za udzielanie rabatów",
     "penalty-penalty-info": "Procent, który jest odejmowany od procentu prowizji od sprzedaży. (Wprowadź dodatnią wartość)",
+    "show-into-footer": "Mostrar en pie de documento",
+    "show-into-modal": "Mostrar en ventana auxiliar",
+    "total-position": "Posición del Total",
     "until-dto": "Do zniżki",
     "until-penalty-info": "Koniec zakresu zniżki, do którego stosuje się karę. '100' oznacza najwyższy zakres"
 }

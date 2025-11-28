@@ -10,6 +10,9 @@
     "penalty-help-info": "If an agent makes a discount when making a sale, it is possible to penalize the commission that he will receive for the sale. Through this ratio of percentages, <b>the penalty is subtracted<\/b> from the commission depending on the from\/to where the discount applied by the salesperson of the sale.<br><br ><b>For example:<\/b><br>If we have a record that sets a <i>From<\/i> 1 and a <i>To<\/i> 20, if the agent makes a discount to the customer of 15% the value that we enter in <i>Penalty<\/i> will be subtracted from the commission",
     "penalty-help-title": "Penalty for making discounts",
     "penalty-penalty-info": "Percentage that is subtracted from the commission percentage on the sale. (Enter a positive value)",
+    "show-into-footer": "Show in document footer",
+    "show-into-modal": "Show in auxiliary window",
+    "total-position": "Position of the Total",
     "until-dto": "Until discount",
     "until-penalty-info": "End of the range of the discount to which the penalty is applied. '100' indicates maximum range"
 }

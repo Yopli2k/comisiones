@@ -10,6 +10,9 @@
     "penalty-help-info": "Se durante una vendita un agente applica uno sconto è possibile penalizzare la commissione che riceverà per la vendita. Attraverso questa relazione percentuale, <b>la penalizzazione<\/b> viene sottratta dalla commissione in base alla fascia di sconto applicata dal commerciale nella vendita.<br><br><b>Per esempio:<\/b><br>Se abbiamo un registro che indica un <i>Da<\/i> 1 e un <i>A<\/i> 20, se l'agente applica uno sconto al cliente del 15% allora verrà detratto dalla commissione il valore che inseriamo in <i>Penalità<\/i>",
     "penalty-help-title": "Penalizzazione per fare sconti",
     "penalty-penalty-info": "Percentuale sottratta alla percentuale di commissione sulla vendita. (Inserire un valore positivo)",
+    "show-into-footer": "Mostrar en pie de documento",
+    "show-into-modal": "Mostrar en ventana auxiliar",
+    "total-position": "Posición del Total",
     "until-dto": "Fino a dto",
     "until-penalty-info": "Fine dell'intervallo dello sconto a cui si applica la penalità. '100' indica il massimo dell'intervallo"
 }

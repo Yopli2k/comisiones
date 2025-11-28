@@ -10,6 +10,9 @@
     "penalty-help-info": "Se ao realizar uma venda um agente faz um desconto, é possível penalizar a comissão que receberá pela venda. Mediante esta relação de porcentagens, <b>é subtraído<\/b> da comissão <b>a penalização<\/b> segundo o desde\/até onde se encontre o desconto aplicado pelo vendedor na venda.<br><br><b>Por exemplo:<\/b><br>Se temos um registro que estabelece um <i>De<\/i> 1 e um <i>Até<\/i> 20, se o agente faz um desconto ao cliente de 15%, então será retirado da comissão o valor que inserirmos em <i>Penalização<\/i>.",
     "penalty-help-title": "Penalização por fazer descontos",
     "penalty-penalty-info": "Percentagem a subtrair à comissão sobre a venda. (Introduzir um valor positivo)",
+    "show-into-footer": "Mostrar en pie de documento",
+    "show-into-modal": "Mostrar en ventana auxiliar",
+    "total-position": "Posición del Total",
     "until-dto": "Até desconto",
     "until-penalty-info": "Fim do intervalo do desconto para aplicar a penalidade. '100' indica o máximo do intervalo"
 }

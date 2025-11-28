@@ -19,6 +19,7 @@
 
 namespace FacturaScripts\Plugins\Comisiones\Mod;
 
+use Exception;
 use FacturaScripts\Core\Contract\CalculatorModInterface;
 use FacturaScripts\Core\Model\Base\BusinessDocument;
 use FacturaScripts\Core\Model\Base\BusinessDocumentLine;
@@ -204,6 +205,9 @@ class CalculatorMod implements CalculatorModInterface
         return true;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function loadCommissions(int $idempresa, ?string $codagente, string $codcliente): void
     {
         $this->commissions = [];
@@ -213,8 +217,10 @@ class CalculatorMod implements CalculatorModInterface
 
         $where = [
             Where::column('idempresa', $idempresa),
-            Where::column('codagente', $codagente),
-            Where::column('codagente', null, 'IS', 'OR'),
+            Where::sub([
+                Where::column('codagente', $codagente),
+                Where::column('codagente', null, 'IS', 'OR'),
+            ]),
         ];
         foreach (Comision::all($where, ['prioridad' => 'DESC']) as $comm) {
             if ($this->isValidCommissionForDoc($comm, $codagente, $codcliente)) {
@@ -231,10 +237,14 @@ class CalculatorMod implements CalculatorModInterface
         }
 
         $where = [
-            Where::column('codagente', $codagente),
-            Where::column('codagente', null, 'IS', 'OR'),
-            Where::column('idempresa', $idempresa),
-            Where::column('idempresa', null, 'IS', 'OR'),
+            Where::sub([
+                Where::column('codagente', $codagente),
+                Where::column('codagente', null, 'IS', 'OR'),
+            ]),
+            Where::sub([
+                Where::column('idempresa', $idempresa),
+                Where::column('idempresa', null, 'IS', 'OR'),
+            ]),
         ];
         $order = [
             'COALESCE(idempresa, 9999999)' => 'ASC',
